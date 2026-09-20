@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>HappyAgar Sunucusu</title>
+</head>
+<body>
+    <h1>HappyAgar Sunucusu Çalışıyor!</h1>
+    <script>
+        const ws = new WebSocket('ws://' + location.host);
+        ws.onopen = () => console.log('Sunucuya bağlandı!');
+        ws.onmessage = (e) => console.log('Mesaj:', e.data);
+    </script>
+</body>
+</html>
