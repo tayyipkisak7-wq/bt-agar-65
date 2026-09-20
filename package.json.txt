@@ -1,12 +1,93 @@
-{
-  "name": "happyagar-server",
-  "version": "1.0.0",
-  "description": "HappyAgar tarzı WebSocket sunucusu",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "ws": "^8.16.0"
-  }
-}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agario Türk - HappyAgar Sunucusu</title>
+    <meta name="description" content="HappyAgar tarzı WebSocket sunucusu ve arayüzü.">
+    <link id="favicon" rel="icon" type="image/png" href="https://agar.cc/tr/favicon.png"/>
+    <link href="lib/css/theme.min.css?v=22222222222222" rel="stylesheet">
+    <style>
+        #overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5); display: flex;
+            align-items: flex-start; justify-content: center; padding-top: 50px; z-index: 9999;
+        }
+        #alertBox {
+            background:white; padding:20px; border-radius:10px; text-align:center; max-width: 400px; width: 90%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        #gamemodes li {
+            list-style:none; padding:10px 20px; background:#3498db; color:white;
+            margin:5px 0; cursor:pointer; border-radius:5px;
+        }
+    </style>
+</head>
+<body>
+<div id="overlay">
+  <div id="alertBox">
+    <p style="margin-bottom:15px; font-weight:bold; color:#e74c3c;">
+      Oyuna Bağlanmak için butona tıklayın.
+    </p>
+    <ul id="gamemodes" class="dropdown-menu">
+      <li class="color1" id="local-server">
+        Oyuna Başla (WebSocket Bağlantısı kur)
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="overlays">
+    <div id="new_theme_agario">
+        <div class="new_theme_agario">
+            <div class="nt_agario_header">
+                <div id="title-logo">
+                    <h2>HappyAgar Özel Sunucu</h2>
+                </div>
+            </div>
+            <div class="nt_agario_content" style="text-align: center; padding: 50px;">
+                <input type="text" id="nick" value="Oyuncu" maxlength="30" style="padding: 10px; font-size: 16px;"/><br><br>
+                <button id="playBtn" onclick="connectGame();" class="oyunabasla playBtn_gdtr" style="padding: 10px 20px; font-size: 18px; background: #27ae60; color: white; border: none; cursor: pointer;">Oyuna Başla</button>
+                <div id="status" style="margin-top: 20px; font-weight: bold; color: green;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let ws;
+
+    function connectGame() {
+        const nickname = document.getElementById('nick').value;
+        const protocol = location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = protocol + location.host;
+
+        ws = new WebSocket(wsUrl);
+
+        ws.onopen = function() {
+            document.getElementById('status').innerText = 'Sunucuya başarıyla bağlandı: ' + nickname;
+            console.log('WebSocket bağlantısı kuruldu.');
+            // Oyuncu giriş paketini sunucuya gönder
+            ws.send(JSON.stringify({ type: 'join', name: nickname }));
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Sunucudan mesaj alındı:', event.data);
+        };
+
+        ws.onclose = function() {
+            document.getElementById('status').innerText = 'Bağlantı kesildi.';
+            document.getElementById('status').style.color = 'red';
+        };
+    }
+
+    // Overlay kaldırma
+    document.querySelectorAll("#gamemodes li").forEach(function(li){
+        li.addEventListener("click", function(){
+            document.getElementById("overlay").style.display = "none";
+        });
+    });
+</script>
+</body>
+</html>
