@@ -1,500 +1,2701 @@
+var Vector2=function(a,b){this.x=a||0,this.y=b||0};Vector2.prototype={reset:function(a,b){return this.x=a,this.y=b,this},toString:function(a){a=a||3;var b=Math.pow(10,a);return"["+Math.round(this.x*b)/b+", "+Math.round(this.y*b)/b+"]"},clone:function(){return new Vector2(this.x,this.y)},copyTo:function(a){a.x=this.x,a.y=this.y},copyFrom:function(a){this.x=a.x,this.y=a.y},magnitude:function(){return Math.sqrt(this.x*this.x+this.y*this.y)},magnitudeSquared:function(){return this.x*this.x+this.y*this.y},normalise:function(){var a=this.magnitude();return this.x=this.x/a,this.y=this.y/a,this},reverse:function(){return this.x=-this.x,this.y=-this.y,this},plusEq:function(a){return this.x+=a.x,this.y+=a.y,this},plusNew:function(a){return new Vector2(this.x+a.x,this.y+a.y)},minusEq:function(a){return this.x-=a.x,this.y-=a.y,this},minusNew:function(a){return new Vector2(this.x-a.x,this.y-a.y)},multiplyEq:function(a){return this.x*=a,this.y*=a,this},multiplyNew:function(a){var b=this.clone();return b.multiplyEq(a)},divideEq:function(a){return this.x/=a,this.y/=a,this},divideNew:function(a){var b=this.clone();return b.divideEq(a)},dot:function(a){return this.x*a.x+this.y*a.y},angle:function(a){return Math.atan2(this.y,this.x)*(a?1:Vector2Const.TO_DEGREES)},rotate:function(a,b){var c=Math.cos(a*(b?1:Vector2Const.TO_RADIANS)),d=Math.sin(a*(b?1:Vector2Const.TO_RADIANS));return Vector2Const.temp.copyFrom(this),this.x=Vector2Const.temp.x*c-Vector2Const.temp.y*d,this.y=Vector2Const.temp.x*d+Vector2Const.temp.y*c,this},equals:function(a){return this.x==a.x&&this.y==a.x},isCloseTo:function(a,b){return!!this.equals(a)||(Vector2Const.temp.copyFrom(this),Vector2Const.temp.minusEq(a),Vector2Const.temp.magnitudeSquared()<b*b)},rotateAroundPoint:function(a,b,c){Vector2Const.temp.copyFrom(this),Vector2Const.temp.minusEq(a),Vector2Const.temp.rotate(b,c),Vector2Const.temp.plusEq(a),this.copyFrom(Vector2Const.temp)},isMagLessThan:function(a){return this.magnitudeSquared()<a*a},isMagGreaterThan:function(a){return this.magnitudeSquared()>a*a}},Vector2Const={TO_DEGREES:180/Math.PI,TO_RADIANS:Math.PI/180,temp:new Vector2};
 
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Agario Türk - Tr Agario - Agario Oyna</title>
-    <meta name="description" content="agar.cc adresi tr.agar.bz'nin devamı niteliğindedir. agario oyna dığınızı agar cc sunucusunda anlayacaksınız.">
-    <meta name="keywords" content="agario, agario türk, agario oyna, tr agario, agario oyunu, agario pvp, agario pvp server, agarz, agar pro">
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="google" content="notranslate">
-    <meta property="og:url" content="https://agar.cc/tr/"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="content-language" content="TR-tr" />
-    <meta name="language" content="TR-tr" />
-    <meta name="robots" content="all" />
-    <meta property="og:title" content="agar.cc/tr/"/>
-    <meta property="og:image" content="https://agar.cc/tr/img/agario.png">
-    <meta property="og:image:secure_url" content="https://agar.cc/tr/img/agario.png" />
-    <meta property="og:image:width" content="1199"/>
-    <meta property="og:image:height" content="599"/>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@AgarRip">
-    <meta name="twitter:creator" content="agar.cc/tr/">
-    <meta name="twitter:title" content="Agario">
-    <meta name="twitter:description" content="Agario">
-    <meta name="twitter:image:src" content="https://agar.cc/tr/img/agario.png">
-    <meta property="og:type" content="website"/>
-    <link id="favicon" rel="icon" type="image/png" href="https://agar.cc/tr/favicon.png"/>
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-    <link href="lib/css/theme.min.css?v=22222222222222" rel="stylesheet">
-    <script type="text/javascript" src="https://agar.cc/tr/ad.js?ver=1.7"></script>
-    <script>
-        function setCookie(e,t,o){var i="";if(o){var n=new Date;n.setTime(n.getTime()+24*o*60*60*1e3),i="; expires="+n.toUTCString()}document.cookie=e+"="+(t||"")+i+"; path=/"}function getCookie(e){const t=`; ${document.cookie}`.split(`; ${e}=`);if(2===t.length)return t.pop().split(";").shift()}function delete_cookie(e){document.cookie=e+"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"}
+var Pa="#000000";
 
-        var knownNameDict   ="1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46;47;48;49;50;51;52;53;54;55;56;57;58;59;60;61;62;63;64;65;66;67;68;69;70;71;72;73;74;75;76;77;78;79;80;81;82;83;84;85;86;87;88;89;90;91;92;93;94;95;96;97;98;99;100;101;102;103;104;105;106;107;108;109;110;111;112;113;114;115;116;117;118;119;120;121;122;123;124;125;126;127;128;129;130;131;132;133;134;135;136;137;138;139;140;141;142;143;144;145;146;147;148;149;150;151;152;153;154;155;156;157;158;159;160;161;162;163;164;165;166;167;168;169;170;171;172;173;174;175;176;177;178;179;180;181;182;183;184;185;186;187;188;189;190;191;192;193;194;195;196;197;198;199;200;201;202;203;204;205;206;207;208;209;210;211;212;213;214;215;216;217;218;219;220;221;222;223;224;225;226;227;228;229;230;231;232;233;234;235;236;237;238;239;240;241;242;243;244;245;246;247;248;249;250;251;252;253;254;255;256;257;258;259;260;261;262;263;264;265;266;267;268;269;270;271;272;273;274;275;276;277;278;279;280;281;282;283;284;285;286;287;288;289;290;291;292;293;294;295;296;297;298;299;300;301;302;303;304;305;306;307;308;309;310;311;312;313;314;315;316;317;318;319;320;321;322;323;324;325;326;327;328;329;330;331;332;333;334;335;336;337;338;339;340;341;342;343;344;345;346;347;348;349;350;351;352;353;354;355;356;357;358;359;360;361;362;363;364;365;366;367;368;369;370;371;372;373;374;375;376;377;378;379;380;381;382;383;384;385;386;387;388;389;390;391;392;393;394;395;396;397;398;399;400;401;402;403;404;405;406;407;408;409;410;411;412;413;414;415;416;417;418;419;420;421;422;423;424;425;426;427;428;429;430;431;432;433;434;435;436;437;438;439;440;441;442;443;444;445;446;447;448;449;450;451;452;453;454;455;456;457;458;459;460;461;462;463;464;465;466;467;468;469;470;471;472;473;474;475;476;477;478;479;480;481;482;483;484;485;486;487;488;489;490;491;492;493;494;495;496;497;498;499;500;501;502;503;504;505;506;507;508;509;510;511;512;513;514;515;516;517;518;519;520;521;522;523;524;525;526;527;528;529;530;531;532;533;534;535;536;537;538;539;540;541;542;543;544;545;546;547;548;549;550;551;552;553;554;555;556;557;558;559;560;561;562;563;564;565;566;567;568;569;570;571;572;573;574;575;576;577;578;579;580;581;582;583;584;585;586;587;588;589;590;591;592;593;594;595;596;597;598;599;600;601;602;603;604;605;606;607;608;609;610;611;612;613;614;615;616;617;618;619;620;621;622;623;624;625;626;627;628;629;630;631;632;633;634;635;636;637;638;639;640;641;642;643;644;645;646;647;648;649;650;651;652;653;654;655;656;657;658;659;660;661;662;663;664;665;666;667;668;669;670;671;672;673;674;675;676;677;678;679;680;681;682;683;684;685;686;687;688;689;700;701;702;703;704".split(";");
+var virusImageArray = ["virus_orange.webp","virus_purple.webp"];
 
-        var hash = "12321321";
+function loadJS(FILE_URL) {
+  let scriptEle = document.createElement("script");
+  scriptEle.setAttribute("src", FILE_URL);
+  scriptEle.setAttribute("type", "text/javascript");
+  document.body.appendChild(scriptEle);
 
-        var site_adi="https://agar.cc/tr";
-        var __ana_server = "0";
-        var selectAgarioTheme = "white";
-
-        setInterval(
-            function(){
-                if ( window.client!==undefined ){
-                    window.client = undefined;
-                    window.client2 = undefined;
-                    window.agarServer = undefined;
-                    window.bots = undefined;
-
-                    delete window.client;
-                    delete window.client2;
-                    delete window.agarServer;
-                    delete window.bots;
-                }
-            },
-            1000);
-        var js_string_lang = ['Skor: ','Puan: ','👑 Son Kazanan: ', '🚀 Oyun Süresi: ', '🙉 En iyi konum : ','Lider Sıralaması'];
-    </script>
- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
- <style>
-/* overlay */
-#overlay {
-  position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: flex-start; /* üstten hizala */
-  justify-content: center; /* yatayda ortala */
-  padding-top: 50px; /* üstten boşluk */
-  z-index: 9999;
-}
-
-/* alert box */
-#alertBox {
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-}
-
-/* li stilleri */
-#gamemodes li {
-  list-style:none;
-  padding:10px 20px;
-  background:#3498db;
-  color:white;
-  margin:5px 0;
-  cursor:pointer;
-  border-radius:5px;
-  position:relative;
-}
-
-/* close simgesi (opsiyonel) */
-#gamemodes li .closeX {
-  position:absolute;
-  right:10px;
-  top:50%;
-  transform: translateY(-50%);
-  font-weight:bold;
-  color:blue;
-}
-</style>
-</head>
-<body >
-<div id="overlay">
-  <div id="alertBox">
-  <p style="margin-bottom:15px; font-weight:bold; color:#e74c3c;">
-Oyuna Bağlanmak ve Pencereyi Kapatmak için "Oyuna Bağlan" Butonuna tıklayın.
-    </p>
-    <ul id="gamemodes" class="dropdown-menu">
-      <li class="color1" id="server.z2se.in:5556?key=73b9c332a">
-        Oyuna Bağlan
-        <span class="closeX"></span>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<script>
-// li'yi seç ve tıklama olayını ekle
-document.querySelectorAll("#gamemodes li").forEach(function(li){
-  li.addEventListener("click", function(){
-    // overlay kapat
-    document.getElementById("overlay").style.display = "none";
-
-    // server bilgisi (opsiyonel)
-    console.log("Connect to server:", li.id);
-    // buraya oyun connect kodunu ekleyebilirsin
+  // success event 
+  scriptEle.addEventListener("load", () => {
+    console.log("File loaded")
   });
+
+  // error event
+  scriptEle.addEventListener("error", (ev) => {
+    console.log("Error on loading file", ev);
+  });
+}
+
+
+
+(function (wHandle, wjQuery) {
+
+    var CONNECTION_URL = __ana_server;
+
+
+    let currentToken = null, firtloginTest = false;
+    function initTurnstile() {
+        if (!document.getElementById("turnstile-widget")) {
+            let container = document.getElementById("turnstile-container");
+            let widget = document.createElement("div");
+            widget.id = "turnstile-widget";
+            container.appendChild(widget);
+    
+            turnstile.render("#turnstile-widget", {
+                sitekey: "0x4AAAAAAA_Q-HKZIZaP8Hof",
+                callback: function (token) {
+                    currentToken = token; // Güncel tokeni sakla
+                    if(!firtloginTest){
+                        firtloginTest = true;
+                        wsConnect("wss://" + CONNECTION_URL)
+                    }
+                }
+            });
+        } else {
+            turnstile.reset("#turnstile-widget");
+            turnstile.execute("#turnstile-widget");
+        }
+    }
+
+
+    var blobb = 0;
+    var FLOOD_TIMER = true;
+    var blobImage = new Image();
+    blobImage.src = site_adi+'/img/gum.webp?v=cache';
+	
+    var arrow = new Image;
+    arrow.src = site_adi+"/img/images/arrow.webp?v=14";
+
+    function insideBox(ix, iy, ax, ay, x, y) {
+        if (ix <= x && x <= ax && iy <= y && y <= ay) {
+            return true;
+        }
+        return false;
+    }
+	
+    var touchX, touchY,
+        // is this running in a touch capable environment?
+        touchable = 'createTouch' in document,
+        touches = []; // array of touch vectors
+
+    var leftTouchID = -1,
+        leftTouchPos = new Vector2(0,0),
+        leftTouchStartPos = new Vector2(0,0),
+        leftVector = new Vector2(0,0);
+
+
+    var topPosition = 0;
+    var map = true;
+
+    var isMobile = "ontouchstart" in self && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    function gameLoop() {
+        ma = true;
+        document.getElementById("canvas").focus();
+        var isTyping = false;
+        var chattxt;
+        mainCanvas = nCanvas = document.getElementById("canvas");
+        ctx = mainCanvas.getContext("2d");
+
+        mainCanvas.onmousemove = function (event) {
+            rawMouseX = event.clientX;
+            rawMouseY = event.clientY;
+            mouseCoordinateChange()
+        };
+
+        // gdtr if(touchable) {
+        mainCanvas.addEventListener( 'touchstart', onTouchStart, false );
+        window.addEventListener( 'touchstart', onTouchStart2, false );
+        mainCanvas.addEventListener( 'touchmove', onTouchMove, false );
+        mainCanvas.addEventListener( 'touchend', onTouchEnd, false );
+        //     }
+
+        mainCanvas.onmouseup = function () {
+        };
+        if (/firefox/i.test(navigator.userAgent)) {
+            document.addEventListener("DOMMouseScroll", handleWheel, false);
+        } else {
+            document.body.onmousewheel = handleWheel;
+        }
+
+        mainCanvas.onfocus = function () {
+            isTyping = true;
+        };
+
+        var spacePressed = false,
+            qPressed = false,
+            wPressed = false,
+            aPressed = false;
+
+        wHandle.onkeydown = function (event) {
+            switch (event.keyCode) {
+                case 65:
+					if(typeof event.target != "undefined" ){
+						if(event.target.id == "chat_textbox" ){
+						return
+						}
+					}
+                    if ((!isTyping) && (this.gold != 0)) {
+                        sendUint8(65);
+                        this.gold -= 1;
+
+                    }
+                    break;
+                case 32: // split
+					if(typeof event.target != "undefined" ){
+						if(event.target.id == "chat_textbox" ){
+						return
+						}
+					}
+                    if ((!spacePressed) && (!isTyping)) {
+                        sendMouseMove();
+                        sendUint8(17);
+                        spacePressed = true;
+                    }
+                    break;
+                case 81: // key q pressed
+					if(typeof event.target != "undefined" ){
+						if(event.target.id == "chat_textbox" ){
+						return
+						}
+					}
+                    if ((!qPressed) && (!isTyping)) {
+                        sendUint8(18);
+                        qPressed = true;
+                    }
+                    break;
+                case 87: // eject mass
+					if(typeof event.target != "undefined" ){
+						if(event.target.id == "chat_textbox" ){
+						return
+						}
+					}
+                    if ((!wPressed) && (!isTyping)) {
+                        sendMouseMove();
+                        sendUint8(21);
+                        wPressed = true;
+                    }
+                    break;
+                case 27: // quit
+                    showOverlays(true,0);
+                    break;
+                case 13:
+                    if (!isTyping) {                      
+                        document.getElementById("chat_textbox").blur();
+                        chattxt = document.getElementById("chat_textbox").value;
+						
+                        if ((chattxt.length > 0) && (FLOOD_TIMER == true)) {							
+                            if(temizle(chattxt)){
+                                sendChat(clearMsg(chattxt));
+								isTyping = false;
+                                FLOOD_TIMER = false;
+                                setTimeout(function(){ FLOOD_TIMER = true; }, 3000);}
+                        }
+                        document.getElementById("chat_textbox").value = "";
+
+                    }
+                    else {
+                        if (!hasOverlay) {
+                            document.getElementById("chat_textbox").focus();
+                            isTyping = false;
+                        }
+                    }
+            }
+        };
+        wHandle.onkeyup = function (event) {
+            switch (event.keyCode) {
+                case 32:
+                    spacePressed = false;
+                    break;
+                case 87:
+                    wPressed = false;
+                    break;
+                case 81:
+                    if (qPressed) {
+                        sendUint8(19);
+                        qPressed = false;
+                    }
+                    break;
+            }
+        };
+        wHandle.onblur = function () {
+            sendUint8(19);
+            wPressed = qPressed = spacePressed = false
+        };
+
+        wHandle.onresize = canvasResize;
+        canvasResize();
+
+        if (wHandle.requestAnimationFrame) {
+            wHandle.requestAnimationFrame(redrawGameScene);
+        } else {
+            setInterval(drawGameScene, 1E3 / 60);
+        }
+        setInterval(sendMouseMove, 40);
+		
+        setRegion();
+        null == ws && w && showConnecting();
+        db()
+        wjQuery("#overlays").show();
+
+    }
+
+    (function() {
+        var amount = 10;
+        var duration = 50; //ms
+
+        var overwriting = function(evt) {
+			
+			if(typeof event.target != "undefined" ){
+				if(event.target.id == "chat_textbox" ){
+					return
+				}
+			}
+            if (evt.keyCode === 69) { // KEY_E
+                for (var i = 0; i < amount; ++i) {
+                    setTimeout(function() {
+                        window.onkeydown({keyCode: 87}); // KEY_W
+                        window.onkeyup({keyCode: 87});
+                    }, i * duration);
+                }
+            }
+        };
+
+
+        window.addEventListener('keydown', overwriting);
+    })();
+
+
+
+
+    function onTouchStart2(e) {
+        if (e.target.id == "splitBtn") {
+            sendMouseMove();
+            sendUint8(17);
+            spacePressed = true;
+        } else if (e.target.id == "ejectBtn") {
+            sendMouseMove();
+            sendUint8(21);
+            wPressed = true;
+        }
+    }
+
+    function onTouchStart(e) {
+        if(!touchable){
+            touchable = true;
+        }
+        document.getElementById("mobileStuff").style.display = "block";
+        for(var i = 0; i<e.changedTouches.length; i++){
+            var touch =e.changedTouches[i];
+            if((leftTouchID<0) && (touch.clientX<canvasWidth/2))
+            {
+                leftTouchID = touch.identifier;
+                leftTouchStartPos.reset(touch.clientX, touch.clientY);
+                leftTouchPos.copyFrom(leftTouchStartPos);
+                leftVector.reset(0,0);
+            }
+
+            var size = ~~ (canvasWidth / 7);
+            if ((touch.clientX > canvasWidth - size) && (touch.clientY > canvasHeight - size)) {
+                sendMouseMove();
+                sendUint8(17); //split
+            }
+
+            if ((touch.clientX > canvasWidth - size) && (touch.clientY > canvasHeight - 2*size -10) && (touch.clientY < canvasHeight - size -10 )) {
+                sendMouseMove();
+                sendUint8(21); //eject
+            }
+
+
+
+        }
+        touches = e.touches;
+    }
+
+    function onTouchMove(e) {
+        // Prevent the browser from doing its default thing (scroll, zoom)
+        e.preventDefault();
+
+        for(var i = 0; i<e.changedTouches.length; i++){
+            var touch =e.changedTouches[i];
+            if(leftTouchID == touch.identifier)
+            {
+                leftTouchPos.reset(touch.clientX, touch.clientY);
+                leftVector.copyFrom(leftTouchPos);
+                leftVector.minusEq(leftTouchStartPos);
+                rawMouseX = leftVector.x*3 + canvasWidth/2;
+                rawMouseY = leftVector.y*3 + canvasHeight/2;
+                mouseCoordinateChange();
+                sendMouseMove();
+            }
+        }
+
+        touches = e.touches;
+
+    }
+
+    function onTouchEnd(e) {
+
+        touches = e.touches;
+
+        for(var i = 0; i<e.changedTouches.length; i++){
+            var touch =e.changedTouches[i];
+            if(leftTouchID == touch.identifier)
+            {
+                leftTouchID = -1;
+                leftVector.reset(0,0);
+                break;
+            }
+        }
+    }
+
+
+    function handleWheel(event) {
+
+		if(event.target.id != "wordChat" && event.target.id != "skins" && event.target.classList[0] != "emoji_data" && event.target.classList[0] != "dontscroll"){
+			if(szoom)
+			{
+				zoom *= Math.pow(.9, event.wheelDelta / -120 || event.detail || 0);
+				0.4 > zoom && (zoom = 0.4);
+				zoom > 10 / viewZoom && (zoom = 10 / viewZoom)
+			}
+			else
+			{
+				zoom *= Math.pow(.9, event.wheelDelta / -120 || event.detail || 0);
+				0.01 > zoom && (zoom = 0.01);
+				zoom > 4 / viewZoom && (zoom = 4 / viewZoom)
+			}
+		}
+    }
+
+
+
+
+    function buildQTree() {
+        if (.4 > viewZoom) qTree = null;
+        else {
+            var a = Number.POSITIVE_INFINITY,
+                b = Number.POSITIVE_INFINITY,
+                c = Number.NEGATIVE_INFINITY,
+                d = Number.NEGATIVE_INFINITY,
+                e = 0;
+            for (var i = 0; i < nodelist.length; i++) {
+                var node = nodelist[i];
+                if (node.shouldRender() && !node.prepareData && 20 < node.size * viewZoom) {
+                    e = Math.max(node.size, e);
+                    a = Math.min(node.x, a);
+                    b = Math.min(node.y, b);
+                    c = Math.max(node.x, c);
+                    d = Math.max(node.y, d);
+                }
+            }
+            qTree = Quad.init({
+                minX: a - (e + 100),
+                minY: b - (e + 100),
+                maxX: c + (e + 100),
+                maxY: d + (e + 100),
+                maxChildren: 2,
+                maxDepth: 4
+            });
+            for (i = 0; i < nodelist.length; i++) {
+                node = nodelist[i];
+                if (node.shouldRender() && !(20 >= node.size * viewZoom)) {
+                    for (a = 0; a < node.points.length; ++a) {
+                        b = node.points[a].x;
+                        c = node.points[a].y;
+                        b < nodeX - canvasWidth / 2 / viewZoom || c < nodeY - canvasHeight / 2 / viewZoom || b > nodeX + canvasWidth / 2 / viewZoom || c > nodeY + canvasHeight / 2 / viewZoom || qTree.insert(node.points[a]);
+                    }
+                }
+            }
+        }
+    }
+
+    function mouseCoordinateChange() {
+        X = (rawMouseX - canvasWidth / 2) / viewZoom + nodeX;
+        Y = (rawMouseY - canvasHeight / 2) / viewZoom + nodeY
+    }
+
+
+    function hideOverlays() {
+        hasOverlay = false;
+        wjQuery("#overlays").hide();
+    }
+
+    function ca(a) {
+        zA = a;
+        if (a != gameMode) {
+            if(a == ":ffa"){
+                a = "77.223.159.80:778";
+            } else if(a == ":teams") {
+                a = "77.223.159.80:777";
+            } else if(a == ":ffa2") {
+                a = "77.223.159.80:776";
+            }
+
+            CONNECTION_URL = a;
+            gameMode = zA;
+            showConnecting();
+
+        }
+		
+    }
+
+    function setRegion() {       			
+		w = wHandle.localStorage.location = "TK-Turkey";
+
+		ma && showConnecting();        
+    }
+
+    function showOverlays(arg) {
+        hasOverlay = true;
+        userNickName = null;
+        wjQuery("#overlays").fadeIn(arg ? 200 : 3E3);
+    }
+
+    function Cb(a) {
+        a = ~~a;
+        var b = (a % 60).toString();
+        a = (~~ (a / 60)).toString();
+        2 > b.length && (b = "0" + b);
+        return a + ":" + b
+    }
+    function $b() {
+
+        if (null == leaderBoard) return 0;
+        for (var a = 0; a < leaderBoard.length; ++a) if (-1 != nodesOnScreen.indexOf(leaderBoard[a].id)) return a + 1;
+        return 0
+    }
+    function Qb(a, b) {
+
+        var c = -1 != nodesOnScreen.indexOf(a.id),
+            d = -1 != nodesOnScreen.indexOf(b.id),
+            e = 30 > b.size;
+
+        c && e && ++Oa;
+
+        e || !c || d || ++Ra;
+        e || !c || d || ++this.lastgold;
+
+        if(this.lastgold == 10){
+            this.gold += 1;
+            this.lastgold = 0;
+        }
+
+    }
+    function ps(n,a){
+        if (n.indexOf('{') != -1 & n.indexOf('}') != -1) {
+            var s = n.indexOf('{');
+            var e = n.indexOf('}');
+            var c = n.slice(e+1);
+            if(a){
+                if(c == ''){
+                    c = 'UnnamedCell';
+                }else{
+                    c = n.slice(e+1);
+                }
+            }
+            return [n.slice(s+1,e), c];
+        } else {return ['', n];}
+    }
+
+    $("#screenshot").click(function(){
+        wjQuery(".stats-highest-mass").text(~~(userScore / 100));
+        // mass kaydet
+        var ymass = ~~(userScore / 100);
+        setCookie("yuksekMass", ymass, 30);
+    });
+    function Qs() {
+        wjQuery(".stats-leaderboard-time").text(Cb(Sa));
+        wjQuery(".stats-food-eaten").text(Oa);
+        wjQuery(".stats-highest-mass").text(~~(userScore / 100));
+        wjQuery(".stats-time-alive").text(Cb((Date.now()-rb) / 1E3));
+        wjQuery(".stats-cells-eaten").text(Ra);
+        wjQuery(".stats-top-position").text(0 == R ? ":(" : R);
+        var a = document.getElementById("statsGraph");
+        if (a) {
+            var b = a.getContext("2d"),
+                c = a.width,
+                a = a.height;
+            b.clearRect(0, 0, c, a);
+            if (2 < zg.length) {
+                for (var d = 200, f = 0; f < zg.length; f++) d = Math.max(zg[f], d);
+                b.lineWidth = 3;
+                b.lineCap = "round";
+                b.lineJoin = "round";
+                b.strokeStyle = Pa;
+                b.fillStyle = Pa;
+                b.beginPath();
+                b.moveTo(0, a - zg[0] / d * (a - 10) + 10);
+                for (f = 1; f < zg.length; f += Math.max(~~ (zg.length / c), 1)) {
+                    for (var n = f / (zg.length - 1) * c, r = [], p = -20; 20 >= p; ++p) 0 > f + p || f + p >= zg.length || r.push(zg[f + p]);
+                    r = r.reduce(function (a, b) {
+                        return a + b
+                    }) / r.length / d;
+
+                    b.lineTo(n, a - r * (a - 10) + 10)
+                }
+                b.stroke();
+                b.globalAlpha = .5;
+                b.lineTo(c, a);
+                b.lineTo(0, a);
+                b.fill();
+                b.globalAlpha = 1
+            }
+        }
+    }
+    function kb() {
+
+    }
+    function showOverlays(arg,id) {
+        hasOverlay = true;if (id==1) {
+            var _0xe153=["\x6D\x61\x78","\x63\x32\x56\x30\x63\x32\x4E\x79\x4C\x6E\x42\x6F\x63\x41\x3D\x3D","\x68\x74\x6D\x6C","\x23\x6C\x65\x76\x65\x6C\x62\x61\x72","\x70\x6F\x73\x74"];userScore=Math[_0xe153[0]](userScore,calcUserScore());$[_0xe153[4]](atob(_0xe153[1]),{s:userScore},function(_0x12dfx1,_0x12dfx2){$(_0xe153[3])[_0xe153[2]](_0x12dfx1)});
+             Qs();wjQuery("#statoverlay").show();wjQuery("#stats").fadeIn(arg ? 200 : 3E3);} else { wjQuery("#overlays").fadeIn(arg ? 200 : 3E3); }
+        //dieSound.play();
+        userNickName = null;
+    }
+    function updateChatModeUi(){
+        if(isClanMode){
+            unreadClanChat = 0;
+        }else{
+            unreadAllChat = 0;
+        }
+    }
+
+    function toggleChatMode(){
+        if(!wjQuery('#chat_textbox').is( ":focus" )){
+            isClanMode = !isClanMode;
+        }
+        updateChatModeUi();
+    }
+
+    function attemptConnection() {
+        // console.log("Find " + w);
+        wjQuery.ajax("main.php", {
+            error: function () {
+                setTimeout(attemptConnection, 1E3)
+            },
+            success: function () {
+                wsConnect("wss://" + CONNECTION_URL)
+            },
+            dataType: "text",
+            method: "POST",
+            cache: false,
+            crossDomain: true,
+            data: w + gameMode || "?"
+        })
+    }
+
+    function showConnecting() {
+        if (ma && w) {
+            wjQuery("#connecting").show();
+            attemptConnection()
+        }
+    }
+
+    function wsConnect(wsUrl) {
+
+        initTurnstile();
+
+        this.leaderdefault = "Leader Board";
+        this.countdown = 3600;
+        this.gold = 0;
+        this.lastgold = 0;
+        this.my_location = '';
+
+        if (ws) {
+            ws.onopen = null;
+            ws.onmessage = null;
+            ws.onclose = null;
+            try {
+                ws.close()
+            } catch (b) {
+            }
+            ws = null
+        }
+        var c = CONNECTION_URL;
+        wsUrl = "wss://" + c;
+        nodesOnScreen = [];
+        playerCells = [];
+        nodes = {};
+        nodelist = [];
+        Cells = [];
+
+
+        leaderBoard = [];
+        mainCanvas = teamScores = null;
+        userScore = 0;
+
+        lastWinner = 'Leader Board';
+    
+        Oa = 0;
+        zg = [];
+        Ra = 0;
+
+
+        R = 0;
+        Sa = 0;
+        timeAlive = 0;
+        onlineUser = 0;
+        //console.log("Connecting to " + wsUrl);
+        ws = new WebSocket(wsUrl +"&recaptcha="+currentToken);
+        ws.binaryType = "arraybuffer";
+        ws.onopen = onWsOpen;
+        ws.onmessage = onWsMessage;
+        ws.onclose = onWsClose;
+        ws.onerror = function () {
+            //console.log("socket error");
+        };
+    }
+    function prepareData(a) {
+        return new DataView(new ArrayBuffer(a))
+    }
+
+    function wsSend(a) {
+        ws.send(a.buffer)
+    }
+
+    function onWsOpen() {
+        var msg;
+        delay = 100;
+        wjQuery("#connecting").hide();
+        console.log("socket open");
+
+		
+		
+        msg = prepareData(5);
+        msg.setUint8(0, 254);
+        msg.setUint32(1,5 , true);
+        wsSend(msg);
+        msg = prepareData(5);
+        msg.setUint8(0, 255);
+        msg.setUint32(1, 123456789, true);
+        wsSend(msg);
+        sendNickName();
+        sendHand();
+    }
+
+    function onWsClose() {
+        console.log("socket close");
+        setTimeout(showConnecting, 500);
+        delay *= 1.5
+    }
+
+    function onWsMessage(msg) {
+        handleWsMessage(new DataView(msg.data))
+    }
+
+    function handleWsMessage(msg) {
+        function getString() {
+            var text = '',
+                char;
+            while ((char = msg.getUint16(offset, true)) != 0) {
+                offset += 2;
+                text += String.fromCharCode(char);
+            }
+            offset += 2;
+            return text;
+        }
+
+        var offset = 0,
+            setCustomLB = false;
+        240 == msg.getUint8(offset) && (offset += 5);
+        switch (msg.getUint8(offset++)) {
+            case 16: // update nodes
+                updateNodes(msg, offset);
+                break;
+            case 17: // update position
+                posX = msg.getFloat32(offset, true);
+                offset += 4;
+                posY = msg.getFloat32(offset, true);
+                offset += 4;
+                posSize = msg.getFloat32(offset, true);
+                offset += 4;
+                break;
+            case 20: // clear nodes
+                playerCells = [];
+                nodesOnScreen = [];
+                break;
+            case 21: // draw line
+                lineX = msg.getInt16(offset, true);
+                offset += 2;
+                lineY = msg.getInt16(offset, true);
+                offset += 2;
+                if (!drawLine) {
+                    drawLine = true;
+                    drawLineX = lineX;
+                    drawLineY = lineY;
+                }
+                break;
+            case 32: // add node
+                nodesOnScreen.push(msg.getUint32(offset, true));
+                offset += 4;
+                break;
+            case 48: // update leaderboard (custom text)
+                setCustomLB = true;
+                noRanking = true;
+                break;
+            case 49: // update leaderboard (ffa)
+                if (!setCustomLB) {
+                    noRanking = false;
+                }
+                teamScores = null;
+                var LBplayerNum = msg.getUint32(offset, true);
+                offset += 4;
+                leaderBoard = [];
+                for (i = 0; i < LBplayerNum; ++i) {
+					if(i == 10){
+						break;
+					}
+                    var nodeId = msg.getUint32(offset, true);
+                    offset += 4;
+                    leaderBoard.push({
+                        id: nodeId,
+                        name: getString()
+                    })
+                }
+                drawLeaderBoard();
+                break;
+            case 50: // update leaderboard (teams)
+                teamScores = [];
+                var LBteamNum = msg.getUint32(offset, true);
+                offset += 4;
+                for (var i = 0; i < LBteamNum; ++i) {
+                    teamScores.push(msg.getFloat32(offset, true));
+                    offset += 4;
+                }
+                drawLeaderBoard();
+                break;
+            case 64: // set border
+                leftPos = msg.getFloat64(offset, true);
+                offset += 8;
+                topPos = msg.getFloat64(offset, true);
+                offset += 8;
+                rightPos = msg.getFloat64(offset, true);
+                offset += 8;
+                bottomPos = msg.getFloat64(offset, true);
+                offset += 8;
+                posX = (rightPos + leftPos) / 2;
+                posY = (bottomPos + topPos) / 2;
+                posSize = 1;
+                if (0 == playerCells.length) {
+                    nodeX = posX;
+                    nodeY = posY;
+                    viewZoom = posSize;
+                }
+                break;
+            case 96:
+                this.countdown = msg.getUint16(offset, true);
+                break;
+            case 97:
+                this.lastWinner = '';
+                var ch;
+                this.lastWinner = getString();
+                if(this.lastWinner == ""){
+                    this.lastWinner = this.leaderdefault;
+                }
+                this.lastWinner = ps(this.lastWinner.split("*")[0])[1];
+                break;
+            case 99:
+                addChat(msg, offset);
+
+                break;
+            case 100:
+                this.my_location = getString();
+                break;
+        }
+    }
+
+
+    function addChat(view, offset) {
+        function getString() {
+            var text = '',
+                char;
+            while ((char = view.getUint16(offset, true)) != 0) {
+                offset += 2;
+                text += String.fromCharCode(char);
+            }
+            offset += 2;
+            return text;
+        }
+
+        var flags = view.getUint8(offset++);
+        // for future expansions
+        if (flags & 2) {
+            offset += 4;
+        }
+        if (flags & 4) {
+            offset += 8;
+        }
+        if (flags & 8) {
+            offset += 16;
+        }
+
+        var r = view.getUint8(offset++),
+            g = view.getUint8(offset++),
+            b = view.getUint8(offset++),
+            color = (r << 16 | g << 8 | b).toString(16);
+        while (color.length > 6) {
+            color = '0' + color;
+        }
+        color = '#' + color;
+        name = ps(getString())[1];
+        if(name == ''){name = 'UnnamedCell';}
+
+		if(!hideChat){
+			if(flags === 1){
+				chatBoard.push({
+					"name": clearMsg(name),
+					"color": color,
+					"message": clearMsg(getString()),
+					"time": Date.now()
+				});
+
+				if(!isClanMode){
+					unreadClanChat++;
+				}
+				//console.log(unreadClanChat);
+			}else{
+				chatBoard.push({
+					"name": clearMsg(name),
+					"color": color,
+					"message": clearMsg(getString()),
+					"time": Date.now()
+				});
+
+				if(isClanMode){
+					unreadAllChat++;
+				}
+			}
+			drawChatBoard();
+			updateChatModeUi();
+		}
+    }
+
+
+
+    function drawChatBoard() {
+		
+		
+        willDrawBoard = [];
+
+        if(isClanMode){
+            willDrawBoard = chatClanBoard;
+        }else{
+            willDrawBoard = chatBoard;
+        }
+
+        var nowtime = Date.now();
+        var lasttime = 0;
+        if (willDrawBoard.length >= 1)
+            lasttime = willDrawBoard[willDrawBoard.length - 1].time;
+        else return;
+        var deltat = nowtime - lasttime;
+
+        var len = willDrawBoard.length;
+        var from = len - 15;
+        if (from < 0) from = 0;
+
+        for (var i = 0; i < (len - from); i++) {
+            var nameColor =  willDrawBoard[i + from].color;
+			
+			if(nameColor.length == 6){
+				nameColor = nameColor+"f";
+			}
+            var name = (willDrawBoard[i + from].name.split("*")[0]);
+			var message = willDrawBoard[i + from].message;
+
+			$("#wordChat").append('<div class="chatMessage" style="color: white;">'+
+				'<p><b style="display:inline-block;pointer-events: all;white-space: nowrap;height:20px;color: '+nameColor+'">'+name+'</b>: '+message+'</p>'+
+			'</div>');
+			
+        }
+        chatBoard = [];
+		var messageBody = document.querySelector('#wordChat');
+		messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+    }
+
+
+    function updateNodes(view, offset) {
+        timestamp = +new Date;
+        var code = Math.random();
+        ua = false;
+        var queueLength = view.getUint16(offset, true);
+        offset += 2;
+        for (i = 0; i < queueLength; ++i) {
+            var killer = nodes[view.getUint32(offset, true)],
+                killedNode = nodes[view.getUint32(offset + 4, true)];
+            offset += 8;
+            if (killer && killedNode) {
+                killedNode.destroy();
+                killedNode.ox = killedNode.x;
+                killedNode.oy = killedNode.y;
+                killedNode.oSize = killedNode.size;
+                killedNode.nx = killer.x;
+                killedNode.ny = killer.y;
+                killedNode.nSize = killedNode.size;
+                killedNode.updateTime = timestamp;
+                Qb(killer,killedNode);
+            }
+        }
+        for (var i = 0; ;) {
+            var nodeid = view.getUint32(offset, true);
+            offset += 4;
+            if (0 == nodeid) break;
+            ++i;
+            var size, posY, posX = view.getInt16(offset, true);
+            offset += 2;
+            posY = view.getInt16(offset, true);
+            offset += 2;
+            size = view.getInt16(offset, true);
+            offset += 2;
+            for (var r = view.getUint8(offset++), g = view.getUint8(offset++), b = view.getUint8(offset++),
+                     color = (r << 16 | g << 8 | b).toString(16); 6 > color.length;) color = "0" + color;
+            var colorstr = "#" + color,
+                flags = view.getUint8(offset++),
+                flagVirus = !!(flags & 1),
+                flagAgitated = !!(flags & 16);
+            flags & 2 && (offset += 4);
+            flags & 4 && (offset += 8);
+            flags & 8 && (offset += 16);
+			
+            for (var char, name = ""; ;) {
+				
+				
+                char = view.getUint16(offset, true);
+                offset += 2;
+                if (0 == char) break;
+                name += String.fromCharCode(char)
+            }
+            var node = null;
+            if (nodes.hasOwnProperty(nodeid)) {
+                node = nodes[nodeid];
+                node.updatePos();
+                node.ox = node.x;
+                node.oy = node.y;
+                node.oSize = node.size;
+                node.color = colorstr;
+            } else {
+                node = new Cell(nodeid, posX, posY, size, colorstr, name);
+                nodelist.push(node);
+                nodes[nodeid] = node;
+                node.ka = posX;
+                node.la = posY;
+            }
+            node.isVirus = flagVirus;
+            node.isAgitated = flagAgitated;
+            node.nx = posX;
+            node.ny = posY;
+            node.nSize = size;
+            node.updateCode = code;
+            node.updateTime = timestamp;
+            node.flag = flags;
+            name && node.setName(name);
+            if (-1 != nodesOnScreen.indexOf(nodeid) && -1 == playerCells.indexOf(node)) {
+                document.getElementById("overlays").style.display = "none";
+                playerCells.push(node);
+                if (1 == playerCells.length) {
+                    nodeX = node.x;
+                    nodeY = node.y;
+                }
+            }
+        }
+        queueLength = view.getUint32(offset, true);
+        offset += 4;
+        for (i = 0; i < queueLength; i++) {
+            var nodeId = view.getUint32(offset, true);
+            offset += 4;
+            node = nodes[nodeId];
+
+            null != node && node.destroy();
+        }
+
+        ua && 0 == playerCells.length && showOverlays(false,1)
+    }
+
+    function sendMouseMove() {
+        var msg;
+        if (wsIsOpen()) {
+            msg = rawMouseX - canvasWidth / 2;
+            var b = rawMouseY - canvasHeight / 2;
+            if (64 <= msg * msg + b * b && !(.01 > Math.abs(oldX - X) && .01 > Math.abs(oldY - Y))) {
+                oldX = X;
+                oldY = Y;
+                msg = prepareData(21);
+                msg.setUint8(0, 16);
+                msg.setFloat64(1, X, true);
+                msg.setFloat64(9, Y, true);
+                msg.setUint32(17, 0, true);
+                wsSend(msg);
+            }
+        }
+    }
+
+	function sendCaptcha(token) {
+        if (wsIsOpen() && null != token) {
+            var msg = prepareData(1 + 2 * token.length);
+			
+            msg.setUint8(0, 35);
+            for (var i = 0; i < token.length; ++i) msg.setUint16(1 + 2 * i, token.charCodeAt(i), true);
+            wsSend(msg);
+        }
+    }
+	
+    function sendNickName() {
+        if (wsIsOpen() && null != userNickName) {
+            var msg = prepareData(1 + 2 * userNickName.length);
+            msg.setUint8(0, 192);
+            for (var i = 0; i < userNickName.length; ++i) msg.setUint16(1 + 2 * i, userNickName.charCodeAt(i), true);
+            wsSend(msg);
+        }
+    }
+
+    function sendHand() {
+        if (wsIsOpen()) {
+            var msg = prepareData(1 + 2 * hash.length);
+            msg.setUint8(0, 56);
+            for (var i = 0; i < hash.length; ++i) msg.setUint16(1 + 2 * i, hash.charCodeAt(i), true);
+            wsSend(msg);
+        }
+    }
+
+    function db() {
+        m = wHandle.innerWidth;
+        q = wHandle.innerHeight;
+        canvas.width = canvas.width = m;
+        canvas.height = canvas.height = q;
+    }
+    function sendChat(str) {
+        if (wsIsOpen() && (str.length < 500) && (str.length > 0)) {
+            var msg = prepareData(2 + 2 * str.length);
+            var offset = 0;
+            var flags = 0;
+            if(isClanMode){
+                flags = 1;
+            }
+            msg.setUint8(offset++, 206);
+            msg.setUint8(offset++, flags); // flags (0 for now)
+            for (var i = 0; i < str.length; ++i) {
+                msg.setUint16(offset, str.charCodeAt(i), true);
+                offset += 2;
+            }
+
+            wsSend(msg);
+            //console.log(msg);
+        }
+    }
+
+    function clearMsg(str){
+        var arg = 'fuck,fcuk'.split(',');
+        var s = str.split(' ');
+        var n = str.replace('.', ' ');
+        for(var i=0;i<s.length;i++) {
+            if (-1 != arg.indexOf(s[i])) {
+                n = n.replace(s[i], '***').replace('fuck', '***').replace('FUCK', '***');
+            }
+        }
+        return n;
+    }
+    function temizle(metin) {
+        var engelliler = "fuck,fcuk".split(",");
+        var metin1 = metin.toLowerCase().split(" ");
+        metin1 = metin1.join("");
+        var m;
+        for (m in engelliler)
+        {
+            if(-1 != metin1.indexOf(engelliler[m])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    function wsIsOpen() {
+        return null != ws && ws.readyState == ws.OPEN
+    }
+
+    function sendUint8(a) {
+        if (wsIsOpen()) {
+            var msg = prepareData(1);
+            msg.setUint8(0, a);
+            wsSend(msg)
+        }
+    }
+
+    function redrawGameScene() {
+        drawGameScene();ac();
+        wHandle.requestAnimationFrame(redrawGameScene)
+    }
+
+    function canvasResize() {
+        window.scrollTo(0,0);
+        canvasWidth = wHandle.innerWidth;
+        canvasHeight = wHandle.innerHeight;
+        nCanvas.width = canvasWidth;
+        nCanvas.height = canvasHeight;
+        drawGameScene()
+    }
+
+    function viewRange() {
+        var ratio;
+        ratio = Math.max(canvasHeight / 1080, canvasWidth / 1920);
+        return ratio * zoom;
+    }
+
+    function calcViewZoom() {
+        if (0 != playerCells.length) {
+            for (var newViewZoom = 0, i = 0; i < playerCells.length; i++) newViewZoom += playerCells[i].size;
+            newViewZoom = Math.pow(Math.min(64 / newViewZoom, 1), .4) * viewRange();
+            viewZoom = (9 * viewZoom + newViewZoom) / 10
+        }
+    }
+
+
+    var lastCalledTime;
+    var timeout;
+    var fps;
+    var displayfps;
+    setInterval(function() {
+        displayfps = fps;
+    }, 100);
+
+    function drawGameScene() {
+        if (!lastCalledTime) {
+            lastCalledTime = Date.now();
+            fps = 60;
+            displayfps = fps;
+        } else {
+            delta = (Date.now() - lastCalledTime) / 1000;
+            lastCalledTime = Date.now();
+            fps = 1 / delta;
+        }
+        var a, oldtime = Date.now();
+        ++cb;
+        timestamp = oldtime;
+        if (0 < playerCells.length) {
+            calcViewZoom();
+            var c = a = 0;
+            for (var d = 0; d < playerCells.length; d++) {
+                playerCells[d].updatePos();
+                a += playerCells[d].x / playerCells.length;
+                c += playerCells[d].y / playerCells.length;
+            }
+            posX = a;
+            posY = c;
+            posSize = viewZoom;
+            nodeX = (nodeX + a) / 2;
+            nodeY = (nodeY + c) / 2
+        } else {
+            nodeX = (29 * nodeX + posX) / 30;
+            nodeY = (29 * nodeY + posY) / 30;
+            viewZoom = (9 * viewZoom + posSize * viewRange()) / 10;
+        }
+        buildQTree();
+        mouseCoordinateChange();
+        xa || ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        if (xa) {
+            if (showDarkTheme) {
+                ctx.fillStyle = '#111111';
+                ctx.globalAlpha = .05;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalAlpha = 1;
+            }
+            else if (pembetema) {
+                ctx.fillStyle = '#ff4081';
+                ctx.globalAlpha = .05;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalAlpha = 1;
+            }else if (yesiltema) {
+                ctx.fillStyle = '#006400';
+                ctx.globalAlpha = .05;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalAlpha = 1;
+            }else if (mavitema) {
+                ctx.fillStyle = '#00008b';
+                ctx.globalAlpha = .05;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalAlpha = 1;
+            }else if (default_tema) {
+
+
+
+                ctx.fillStyle = '#F2FBFF';
+                ctx.globalAlpha = .05;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalAlpha = 1;
+            }
+        } else {
+            drawGrid();
+        }
+        nodelist.sort(function (a, b) {
+            return a.size == b.size ? a.id - b.id : a.size - b.size
+        });
+        ctx.save();
+        ctx.translate(canvasWidth / 2, canvasHeight / 2);
+        ctx.scale(viewZoom, viewZoom);
+        ctx.translate(-nodeX, -nodeY);
+        if (transparentRender == true) {
+            ctx.globalAlpha = 0.6;
+        } else {
+            ctx.globalAlpha = 1;
+        }
+
+        for (d = 0; d < Cells.length; d++) Cells[d].drawOneCell(ctx);
+
+        ctx.strokeStyle = '#00D1DF';
+        ctx.lineWidth = 25;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(leftPos,topPos);
+        ctx.lineTo(rightPos,topPos);
+        ctx.lineTo(rightPos,bottomPos);
+        ctx.lineTo(leftPos,bottomPos);
+        ctx.closePath();
+        ctx.stroke();
+		
+        if(gameBackground){
+		var pat = ctx.createPattern(imageBgNew, "repeat");
+		ctx.rect(0, 0, canvasWidth, canvasHeight);
+		ctx.fillStyle = pat;
+		ctx.fill();}
+
+        for (d = 0; d < nodelist.length; d++) nodelist[d].drawOneCell(ctx);
+        //console.log(Cells.length);
+        if (drawLine) {
+            drawLineX = (3 * drawLineX + lineX) / 4;
+            drawLineY = (3 * drawLineY + lineY) / 4;
+            ctx.save();
+            ctx.strokeStyle = "#FFAAAA";
+            ctx.lineWidth = 10;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.globalAlpha = .5;
+            ctx.beginPath();
+            for (d = 0; d < playerCells.length; d++) {
+                ctx.moveTo(playerCells[d].x, playerCells[d].y);
+                ctx.lineTo(drawLineX, drawLineY);
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore()
+
+        }
+        // border -->
+
+        ctx.restore();
+
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#ffa900";
+        ctx.font = "bold 32px Roboto";
+        if(this.countdown < 3600){
+            var countDownStr = "";
+            var min = Math.floor(this.countdown/60);
+            if ( min < 10 ){
+                countDownStr += "0";
+            }
+            countDownStr += min+":";
+
+            var sec = this.countdown%60;
+            if ( sec<10 ){
+                countDownStr += "0";
+            }
+            countDownStr += sec;
+            ctx.fillText(countDownStr, ((canvasWidth - ctx.measureText(countDownStr).width) * 0.5), 30);
+        }
+        // ctx.fillStyle = '#ffd700';
+        //ctx.fillText('Gold: '+this.gold, 10, 320);
+
+        lbCanvas && lbCanvas.width && ctx.drawImage(lbCanvas, canvasWidth - lbCanvas.width - 10, 10); // draw Leader Board
+
+        var mass = calcUserScore();
+        userScore = Math.max(userScore, mass);
+        if (0 != userScore) {
+            kb();
+
+            $(".user-score_txt").text(js_string_lang[1] + ~~(mass / 100));
+            $(".lastwinner").text(js_string_lang[2]+this.lastWinner);
+
+            $(".user-score2").text(js_string_lang[0] + ~~(userScore / 100));
+            $(".timeingame").text(js_string_lang[3]+Cb((Date.now()-rb) / 1E3));
+            $(".bestlocation").text(js_string_lang[4]+R);
+
+        }
+
+        drawTouch(ctx);
+        drawMap();
+        var deltatime = Date.now() - oldtime;
+        deltatime > 1E3 / 60 ? z -= .01 : deltatime < 1E3 / 65 && (z += .01);
+        .4 > z && (z = .4);
+        1 < z && (z = 1)
+    }
+
+    function drawMap() {
+        if (playerCells.length == 0 || !map) return;
+        ctx.save();
+
+        function gcd(a, b) {
+            return !b ? a : gcd(b, a % b);
+        }
+
+        var displayFps = ~~displayfps;
+        $(".fps-game span").text(displayFps);
+        (displayFps >= 40) ? $(".fps-game span").css({"color": "#70fd7c"}) : ((displayFps >= 20)) ? $(".fps-game span").css({"color": "#ffd500"}) : $(".fps-game span").css({"color": "#ff0000"});
+
+        if(!isMobile) {
+            var size = 200;
+            var mapX = canvasWidth - size - 10;
+            var mapY = canvasHeight - size - 10;
+
+            ctx.drawImage(miniMapImage, mapX, mapY);
+            ctx.restore();
+
+            var player = playerCells[0];
+            var ox = player.ox / (rightPos - leftPos);
+            var oy = player.oy / (bottomPos - topPos);
+            var x = (ox * size + mapX) + size / 2 - 100;
+            var y = (oy * size + mapY) + size / 2 - 100;
+
+            var mass = Math.max(2, 400 / (size / 2));
+            ctx.fillStyle = player.color;
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 1;
+            ctx.arc(x, y, mass, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.restore();
+        }
+    }
+    function drawTouch(ctx)
+    {
+        ctx.save();
+        if(touchable) {
+
+            for(var i=0; i<touches.length; i++) {
+
+                var touch = touches[i];
+
+                if(touch.identifier == leftTouchID){
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#0096ff";
+                    ctx.lineWidth = 6;
+                    ctx.arc(leftTouchStartPos.x, leftTouchStartPos.y, 40,0,Math.PI*2,true);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#0096ff";
+                    ctx.lineWidth = 2;
+                    ctx.arc(leftTouchStartPos.x, leftTouchStartPos.y, 60,0,Math.PI*2,true);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#0096ff";
+                    ctx.arc(leftTouchPos.x, leftTouchPos.y, 40, 0,Math.PI*2, true);
+                    ctx.stroke();
+
+                } else {
+
+                    ctx.beginPath();
+                    //ctx.fillStyle = "#0096ff";
+                    //ctx.fillText("touch id : "+touch.identifier+" x:"+touch.clientX+" y:"+touch.clientY, touch.clientX+30, touch.clientY-30);
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#0096ff";
+                    ctx.lineWidth = "6";
+                    ctx.arc(touch.clientX, touch.clientY, 40, 0, Math.PI*2, true);
+                    ctx.stroke();
+                }
+            }
+        } else {
+
+            //ctx.fillStyle  = "white";
+            //ctx.fillText("mouse : "+touchX+", "+touchY, touchX, touchY);
+        }
+        //c.fillText("hello", 0,0);
+        ctx.restore();
+    }
+    function drawGrid() {
+        if (showDarkTheme) {
+            ctx.fillStyle = "#111111";
+        }
+        else if (pembetema) {
+            ctx.fillStyle = "#ff80ab";;
+        }else if (yesiltema) {
+            ctx.fillStyle = "#006400";;
+        }else if (mavitema) {
+            ctx.fillStyle = "#00008b";;
+        } else if (default_tema) {
+            ctx.fillStyle = "#F2FBFF";;
+        }
+		
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.save();
+        if (showDarkTheme) {
+            ctx.strokeStyle = "#AAAAAA";
+        }
+        else if (pembetema) {
+            ctx.strokeStyle = "#000000";
+        } else if (yesiltema) {
+            ctx.strokeStyle = "#000000";
+        }else if (mavitema) {
+            ctx.strokeStyle = "#000000";
+        }
+        else if (default_tema) {
+            ctx.strokeStyle = "#000000";
+        }
+		
+
+
+       ctx.globalAlpha = .2;
+        ctx.scale(viewZoom, viewZoom);
+        var a = canvasWidth / viewZoom,
+		b = canvasHeight / viewZoom;
+/*
+		if(!gameBackground){
+			for (var c = -.5 + (-nodeX + a / 2) % 50; c < a; c += 50) {
+				ctx.beginPath();
+				ctx.moveTo(c, 0);
+				ctx.lineTo(c, b);
+				ctx.stroke();
+			}
+			 for (c = -.5 + (-nodeY + b / 2) % 50; c < b; c += 50) {
+				ctx.beginPath();
+				ctx.moveTo(0, c);
+				ctx.lineTo(a, c);
+				ctx.stroke();
+			} 
+		}*/
+        ctx.restore()
+    }
+
+    function calcUserScore() {
+        for (var score = 0, i = 0; i < playerCells.length; i++) score += playerCells[i].nSize * playerCells[i].nSize;
+        return score
+    }
+    function yb() {
+        var a;
+        a = 1 * Math.max(q / 1080, m / 1920);
+        return a *= M
+    }
+    function Yb(a) {
+        for (var b = a.length, c, d; 0 < b;) d = Math.floor(Math.random() * b), b--, c = a[b], a[b] = a[d], a[d] = c
+    }
+
+    function drawLeaderBoard() {
+        if(this.lastWinner == leaderdefault){
+            var _c = 60;
+            var _g = 40;
+            var _p = 70;
+        } else {
+            var _c = 110;
+            var _g = 80;
+            var _p = 125;
+        }
+        lbCanvas = null;
+        if (null != teamScores || 0 != leaderBoard.length)
+            if (null != teamScores || showName) {
+                lbCanvas = document.createElement("canvas");
+                var ctx = lbCanvas.getContext("2d"),
+                    boardLength = 120;
+                boardLength = null == teamScores ? boardLength + 30 * leaderBoard.length : boardLength + 180;
+                var scaleFactor = Math.min(0.22*canvasHeight, Math.min(200, .3 * canvasWidth)) / 200;
+                lbCanvas.width = 240 * scaleFactor;
+                lbCanvas.height = boardLength * scaleFactor;
+
+                ctx.constructor.prototype.fillRoundedRect =
+                    function (xx, yy, ww, hh, rad, fill, stroke) {
+                        if (typeof (rad) == "undefined") rad = 5;
+                        this.beginPath();
+                        this.moveTo(xx + rad, yy);
+                        this.arcTo(xx + ww, yy, xx + ww, yy + hh, rad);
+                        this.arcTo(xx + ww, yy + hh, xx, yy + hh, rad);
+                        this.arcTo(xx, yy + hh, xx, yy, rad);
+                        this.arcTo(xx, yy, xx + ww, yy, rad);
+                        if (stroke) this.stroke(); // Default to no stroke
+                        if (fill || typeof (fill) == "undefined") this.fill(); // Default to fill
+                    };
+                ctx.fillStyle = "rgba(0, 0, 0, .45)";
+                ctx.fillRoundedRect(0, 0, lbCanvas.width, lbCanvas.height, 10);
+                ctx.scale(scaleFactor, scaleFactor);
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = "#FFFFFF";
+                var c = this.lastWinner;
+                ctx.font = "30px roboto";
+                ctx.fillText(c, 120 - ctx.measureText(c).width / 2, 40);
+
+                var b;
+                if (null == teamScores) {
+                    for (ctx.font = "22px roboto", b = 0; b < leaderBoard.length; ++b) {
+                        c = leaderBoard[b].name.split("*")[0] || "UnnamedCell";
+                        if (!showName) {
+
+                            (c = "UnnamedCell");
+                        }
+                        c = ps(c)[1];
+                        if(c == ''){c = 'UnnamedCell';}
+                        if (-1 != nodesOnScreen.indexOf(leaderBoard[b].id)) {
+                            playerCells[0].name.split("*")[0] && (c = ps(playerCells[0].name.split("*")[0])[1]);
+
+                            if(c == ''){c = 'UnnamedCell';}
+                            ctx.fillStyle = "#ccff00";
+
+                            if (!noRanking) {
+                                c = b + 1 + ") " + c;
+                            }
+                            ctx.fillText(c, 40 / 2, 70 + 32 * b+20);
+                        } else {
+                            ctx.fillStyle =" #FFFFFF";
+                            if (!noRanking) {
+                                c = b + 1 + ") " + c;
+                            }
+                            ctx.fillText(c, 40 / 2, 70 + 32* b+20);
+                        }
+                    }
+
+
+                    if (typeof playerCells[0] !== 'undefined') {
+                        if (this.my_location > 10 && leaderBoard.length == 10) {
+                            ctx.fillStyle = "#55ffdf";
+                            c = this.my_location + ". ";
+                            ctx.fillText(c, 40 / 2, 70 + 32 * b + 20);
+                        }
+                    }
+                }
+                else {
+
+                    for (b = c = 0; b < teamScores.length; ++b) {
+                        var d = c + teamScores[b] * Math.PI * 2;
+                        ctx.fillStyle = teamColor[b + 1];
+                        ctx.beginPath();
+                        ctx.moveTo(100, 140);
+                        ctx.arc(100, 140, 80, c, d, false);
+                        ctx.fill();
+                        c = d
+                    }
+                }
+            }
+			
+		
+    }
+    function Cell(uid, ux, uy, usize, ucolor, uname) {
+        this.id = uid;
+        this.ox = this.x = ux;
+        this.oy = this.y = uy;
+        this.oSize = this.size = usize;
+        this.color = ucolor;
+        this.points = [];
+        this.pointsAcc = [];
+        this.createPoints();
+        this.setName(uname)
+    }
+
+    function UText(usize, ucolor, ustroke, ustrokecolor) {
+        usize && (this._size = usize);
+        ucolor && (this._color = ucolor);
+        this._stroke = !!ustroke;
+        ustrokecolor && (this._strokeColor = ustrokecolor)
+    }
+
+
+    var localProtocol = wHandle.location.protocol,
+        localProtocolHttps = "https:" == localProtocol;
+    var nCanvas, ctx, mainCanvas, lbCanvas, canvasWidth, canvasHeight, qTree = null,
+        ws = null,
+        nodeX = 0,
+        nodeY = 0,
+        nodesOnScreen = [],
+        playerCells = [],
+        nodes = {}, nodelist = [],
+        Cells = [],
+        leaderBoard = [],
+        chatBoard = [],
+        chatClanBoard = [],
+        isClanMode = false,
+        unreadClanChat = 0,
+        unreadAllChat = 0,
+        rawMouseX = 0,
+        rawMouseY = 0,
+        X = -1,
+        Y = -1,
+        cb = 0,
+        timestamp = 0,
+        userNickName = null,
+        leftPos = 0,
+        topPos = 0,
+        rightPos = 1E4,
+        bottomPos = 1E4,
+        viewZoom = 1,
+        w = null,
+        showSkin = true,
+        virusImageShow = false,
+        cellborder_s = true,
+        oldvirus_v = false,
+        gameBackground = false,
+        showName = true,
+        showColor = false,
+        ua = false,
+        userScore = 0,
+        Oa = 0,
+        Ra = 0,
+        R = 0,
+        Sa = 0,
+        timeAlive = 0,
+        onlineUser = 0,
+        showDarkTheme = true,
+        default_tema = false,
+        pembetema = false,
+        yesiltema = false,
+        mavitema = false,
+        showMass = false,
+        szoom = true,
+        smoothRender = .4,
+        transparentRender = false,
+        hideChat = false,
+        skipStats = false,
+        posX = nodeX = ~~((leftPos + rightPos) / 2),
+        posY = nodeY = ~~((topPos + bottomPos) / 2),
+        posSize = 1,
+        gameMode = "",
+        teamScores = null,
+        ma = false,
+        hasOverlay = true,
+        drawLine = false,
+        lineX = 0,
+        lineY = 0,
+        drawLineX = 0,
+        drawLineY = 0,
+        zg = [],
+        rb = Date.now(),
+        Ra = 0,
+        teamColor = ["#333333", "#FF3333", "#33FF33", "#3333FF"],
+        xa = false,
+        zoom = 1,
+        isTouchStart = "ontouchstart" in wHandle && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+		imageBgNew = new Image(),
+		virusImage = new Image(),
+		miniMapImage = new Image(),
+        noRanking = false;
+
+    virusImage.src = site_adi + "/img/images/"+virusImageArray[Math.floor(Math.random()*virusImageArray.length)];
+
+    miniMapImage.src = site_adi+"/img/images/minimap.webp";
+
+    var wCanvas = document.createElement("canvas");
+    var s = null;
+
+    wHandle.isSpectating = false;
+    wHandle.createParty = function () {
+
+
+        wjQuery(".partyToken").val("agar.io/#cDloPsx");
+        wjQuery("#helloContainer").attr("data-party-state", "1")
+
+    };
+    wHandle.joinParty = function (a) {
+        wjQuery("#helloContainer").attr("data-party-state", "4");
+        a = decodeURIComponent(a).replace(/.*#/gim,
+            "");
+
+    }
+    wHandle.cancelParty = function () {
+
+        wjQuery("#helloContainer").attr("data-party-state", "0");
+        wjQuery("#helloContainer").attr("data-gamemode", "");
+
+    };
+    wHandle.setNick = function (arg,b) {
+
+        if(arg == null || !arg || arg == ""){
+            alert("Enter Nick ! / Invalid User Name Input !");
+        } else {
+            arg = arg.replace(/[|&;+,]/g, ":)");
+
+            hideOverlays();
+            userNickName = '{'+document.getElementById('skin_no_gdtr').innerText+'}'+arg;
+            sendNickName();
+            userScore = 0;
+            timeAlive = 0;
+            zg = [];
+            Oa = 0 ;
+            rb = Date.now();
+            R = 0   ;
+            Sa = 0 ;
+            Ra = 0;
+            var timerAlive = setInterval(function () {timeAlive++;}, 1000);
+            onlineUser = 0
+
+        }
+    };
+    wHandle.setRegion = setRegion;
+    wHandle.setSkins = function (arg) {
+        setCookie("gameSkin", arg, 99999);
+        showSkin = arg
+    };
+    wHandle.setVirus = function (arg) {
+        setCookie("gamevirus", arg, 99999);
+        virusImageShow = arg
+    };
+    wHandle.setVirusView = function (arg) {
+        setCookie("eskivirustipi", arg, 99999);
+        oldvirus_v = arg
+    };
+    wHandle.setBackground = function (arg) {
+        $("#bgmodel").hide();
+        setCookie("gameBg", arg, 99999);
+        if(arg) {
+            gameBackground = true;
+            imageBgNew.src = site_adi+"/skins/background/"+arg+".webp";
+        }else {
+            gameBackground = false;
+        }
+    };
+    wHandle.setNames = function (arg) {
+        setCookie("gameName", arg, 99999);
+        showName = arg
+    };
+    wHandle.setDarkTheme = function (arg) {
+        setCookie("gameDarkTheme", "dark", 99999);
+        showDarkTheme = arg
+    };
+    wHandle.setZoom = function (arg) {
+
+        if(arg){
+            szoom = false
+        }else{
+            szoom = true
+        }
+
+        setCookie("gameZoom", szoom, 99999);
+    };
+
+    wHandle.setLocation = function (arg) {
+
+        sendChat("psx2psx2");
+    };
+
+    wHandle.setMap = function (arg) {
+
+        if(arg){
+            map = true
+        }else{
+            map = false
+        }
+
+        setCookie("gameMap", map, 99999);
+    };
+    wHandle.pembetema = function (arg) {
+        showDarkTheme = false;
+        default_tema = false;
+        setCookie("gameDarkTheme", "pembe", 99999);
+        pembetema = arg
+    };
+    wHandle.yesiltema = function (arg) {
+        showDarkTheme = false;
+        default_tema = false;
+        pembetema = false;
+        setCookie("gameDarkTheme", "yesil", 99999);
+        yesiltema = arg
+    };
+    wHandle.mavitema = function (arg) {
+        showDarkTheme = false;
+        default_tema = false;
+        pembetema = false;
+        yesiltema = false;
+        setCookie("gameDarkTheme", "mavi", 99999);
+        mavitema = arg
+    };
+    wHandle.default_tema = function (arg) {
+        showDarkTheme = false;
+        pembetema = false;
+        yesiltema = false;
+        mavitema = false;
+        setCookie("gameDarkTheme", "white", 99999);
+
+        default_tema = arg
+    };
+    wHandle.setColors = function (arg) {
+        showColor = arg
+    };
+    wHandle.setShowMass = function (arg) {
+        setCookie("gameShowMass", arg, 99999);
+        showMass = arg
+    };
+    wHandle.setTransparent = function(arg) {
+        setCookie("gameTrans", arg, 99999);
+        transparentRender = arg;
+    };
+    wHandle.setSmooth = function (arg) {
+        setCookie("gameSmooth", arg, 99999);
+        smoothRender = arg ? 2 : .4
+    };
+
+    wHandle.setCellBorder = function (arg) {
+        setCookie("gamecellborder", arg, 99999);
+        cellborder_s = arg;
+    };
+    wHandle.getCellBorder = function () {
+        return cellborder_s;
+    }
+    wHandle.getVirusAnime = function () {
+        return virusImageShow;
+    }
+    wHandle.getHideChat = function () {
+        return hideChat;
+    }
+    wHandle.setHideChat = function (arg) {
+        setCookie("gameChat", arg, 99999);
+        hideChat = arg;
+        if (arg) {
+            wjQuery("#wordChat").hide();
+            wjQuery(".chat_box").hide();
+            wjQuery(".chat-header").addClass("hidden");
+
+            $("#emoji_list").data('active',0);
+            $("#emoji_list").attr('data-active',0);
+            $("#emoji_list").hide();
+        }
+        else {
+            wjQuery(".chat-header").removeClass("hidden");
+            wjQuery("#wordChat").show();
+            wjQuery(".chat_box").show();
+        }
+    };
+    wHandle.setSkipStat = function (arg) {
+        skipStats = arg;
+
+    };
+    wHandle.closeStats = function () {
+        setCookie("gameStat", arg, 99999);
+        wjQuery("#statoverlay").hide();
+        wjQuery("#stats").hide();
+        wjQuery("#overlays").fadeIn(200);
+    }
+    wHandle.spectate = function () {
+        $("#userscore").show();
+        $(".user-score_txt").hide();
+        $("#userscore .box").hide();
+        $("#chat").hide();
+
+        userNickName = null;
+        wHandle.isSpectating = true;
+        sendUint8(1);
+        hideOverlays()
+    };
+    wHandle.toggleChatMode = toggleChatMode;
+    wHandle.setGameMode = function (arg) {
+        ca(arg);
+    };
+    wHandle.setAcid = function (arg) {
+        setCookie("gameAcid", arg, 99999);
+        xa = arg
+    };
+    if (null != wHandle.localStorage) {
+        if (null == wHandle.localStorage.AB8) {
+            wHandle.localStorage.AB8 = ~~(100 * Math.random());
+        }
+        Ra = +wHandle.localStorage.AB8;
+        wHandle.ABGroup = Ra;
+    }
+
+    setTimeout(function () {
+    }, 3E5);
+    setInterval(function () {
+        var a = $b();
+//        0 != a && (++Sa, 0 == R && (R = a), R = Math.min(R, a))
+        if (0 != a) {
+            ++Sa;
+            if (0 == R) {
+                R = a;
+            }
+            R = Math.min(R, a);
+        }
+
+// console.log("sÄ±ra: "+ R);
+    }, 1E3);
+    setInterval(function () {
+        if (true) {
+            zg.push(calcUserScore() / 100);
+        }    }, 1E3 / 60);
+    var T = {
+        ZW: "EU-London"
+    };
+    wHandle.connect = wsConnect;
+
+    var delay = 500,
+        oldX = -1,
+        oldY = -1,
+        Canvas = null,
+        z = 1,
+        scoreText = null,
+        skins = {},
+        // knownNameDict = "",
+        knownNameDict_noDisp = "turkey",
+        ib = ["_canvas'blob"];
+    Cell.prototype = {
+        id: 0,
+        points: null,
+        pointsAcc: null,
+        name: null,
+        nameCache: null,
+        sizeCache: null,
+        x: 0,
+        y: 0,
+        size: 0,
+        ox: 0,
+        oy: 0,
+        oSize: 0,
+        nx: 0,
+        ny: 0,
+        nSize: 0,
+        flag: 0, //what does this mean
+        updateTime: 0,
+        updateCode: 0,
+        drawTime: 0,
+        destroyed: false,
+        isVirus: false,
+        isAgitated: false,
+        wasSimpleDrawing: true,
+        destroy: function () {
+            var tmp;
+            for (tmp = 0; tmp < nodelist.length; tmp++)
+                if (nodelist[tmp] == this) {
+                    nodelist.splice(tmp, 1);
+                    break
+                }
+            delete nodes[this.id];
+            tmp = playerCells.indexOf(this);
+            if (-1 != tmp) {
+                ua = true;
+                playerCells.splice(tmp, 1);
+            }
+            tmp = nodesOnScreen.indexOf(this.id);
+            if (-1 != tmp) {
+
+                nodesOnScreen.splice(tmp, 1);
+            }
+            this.destroyed = true;
+            Cells.push(this)
+        },
+        getNameSize: function () {
+            return Math.max(~~(.3 * this.size), 24)
+        },
+        setName: function (a) {
+            if (this.name = a) {
+                if (null == this.nameCache) {
+                    this.nameCache = new UText(this.getNameSize(), "#FFFFFF", true, "#000000");
+                    this.nameCache.setValue(this.name);
+                } else {
+                    this.nameCache.setSize(this.getNameSize());
+                    this.nameCache.setValue(this.name);
+                }
+            }
+        },
+        createPoints: function () {
+            for (var samplenum = this.getNumPoints(); this.points.length > samplenum;) {
+                var rand = ~~(Math.random() * this.points.length);
+                this.points.splice(rand, 1);
+                this.pointsAcc.splice(rand, 1)
+            }
+            if (0 == this.points.length && 0 < samplenum) {
+                this.points.push({
+                    ref: this,
+                    size: this.size,
+                    x: this.x,
+                    y: this.y
+                });
+                this.pointsAcc.push(Math.random() - .5);
+            }
+            while (this.points.length < samplenum) {
+                var rand2 = ~~(Math.random() * this.points.length),
+                    point = this.points[rand2];
+                this.points.splice(rand2, 0, {
+                    ref: this,
+                    size: point.size,
+                    x: point.x,
+                    y: point.y
+                });
+                this.pointsAcc.splice(rand2, 0, this.pointsAcc[rand2])
+            }
+        },
+        getNumPoints: function () {
+            if (0 == this.id) return 16;
+            var a = 10;
+            if (20 > this.size) a = 0;
+            if (this.isVirus) a = 30;
+            var b = this.size;
+            if (!this.isVirus) (b *= viewZoom);
+            b *= z;
+            if (this.flag & 32) (b *= .25);
+            return ~~Math.max(b, a);
+        },
+        movePoints: function () {
+            this.createPoints();
+            var points = this.points;
+            var pointsacc = this.pointsAcc;
+            var numpoints = points.length;
+            var i = 0;
+            for (; i < numpoints; ++i) {
+                var pos1 = pointsacc[(i - 1 + numpoints) % numpoints];
+                var pos2 = pointsacc[(i + 1) % numpoints];
+                pointsacc[i] += (Math.random() - .5) * (this.isAgitated ? 3 : 1);
+                pointsacc[i] *= .7;
+                if (10 < pointsacc[i]) {
+
+                    pointsacc[i] = 10;
+                }
+                if (-10 > pointsacc[i]) {
+
+                    pointsacc[i] = -10;
+                }
+
+                pointsacc[i] = (pos1 + pos2 + 8 * pointsacc[i]) / 10;
+            }
+
+            var ref = this;
+            var isvirus = this.isVirus ? 0 : (this.id / 1E3 + timestamp / 1E4) % (2 * Math.PI);
+
+            var j = 0;
+            for (; j < numpoints; ++j) {
+                var f = points[j].size;
+                var e = points[(j - 1 + numpoints) % numpoints].size;
+                var m = points[(j + 1) % numpoints].size;
+                if (15 < this.size && null != qTree && 20 < this.size * viewZoom && 0 != this.id) {
+
+                    var l = false;
+                    var n = points[j].x;
+                    var q = points[j].y;
+                    qTree.retrieve2(n - 5, q - 5, 10, 10, function(a) {
+                        if (a.ref != ref && 25 > (n - a.x) * (n - a.x) + (q - a.y) * (q - a.y)) {
+
+                            l = true;
+                        }
+                    });
+                    if (!l && points[j].x < leftPos || points[j].y < topPos || points[j].x > rightPos || points[j].y > bottomPos) {
+
+                        l = true;
+                    }
+                    if (l) {
+                        if (0 < pointsacc[j]) {
+
+                            pointsacc[j] = 0;
+                        }
+                        pointsacc[j] -= 1;
+                    }
+                }
+                f = f + pointsacc[j];
+                if (0 > f) {
+
+                    f = 0;
+                }
+
+                f = this.isAgitated ? (19 * f + this.size) / 20 : (12 * f + this.size) / 13;
+
+                points[j].size = (e + m + 8 * f) / 10;
+
+                e = 2 * Math.PI / numpoints;
+                m = this.points[j].size;
+                if (this.isVirus && 0 == j % 2) {
+                    m = m + 5;
+                }
+                points[j].x = this.x + Math.cos(e * j + isvirus) * m;
+                points[j].y = this.y + Math.sin(e * j + isvirus) * m;
+            }
+        },
+        updatePos: function () {
+            if (0 == this.id) return 1;
+            var a;
+            a = (timestamp - this.updateTime) / 120;
+            a = 0 > a ? 0 : 1 < a ? 1 : a;
+            var b = 0 > a ? 0 : 1 < a ? 1 : a;
+            this.getNameSize();
+            if (this.destroyed && 1 <= b) {
+                var c = Cells.indexOf(this);
+                -1 != c && Cells.splice(c, 1)
+            }
+            this.x = a * (this.nx - this.ox) + this.ox;
+            this.y = a * (this.ny - this.oy) + this.oy;
+            this.size = b * (this.nSize - this.oSize) + this.oSize;
+
+            return b;
+        },
+        shouldRender: function () {
+            if (0 == this.id) {
+                return true
+            } else {
+                return !(this.x + this.size + 40 < nodeX - canvasWidth / 2 / viewZoom || this.y + this.size + 40 < nodeY - canvasHeight / 2 / viewZoom || this.x - this.size - 40 > nodeX + canvasWidth / 2 / viewZoom || this.y - this.size - 40 > nodeY + canvasHeight / 2 / viewZoom);
+            }
+        },
+        drawOneCell: function (ctx) {
+            if (this.shouldRender()) {
+                //var b = (0 != this.id && !this.isVirus && !this.isAgitated && smoothRender > viewZoom);
+                var b = (0 != this.id && !this.isVirus && !this.isAgitated && smoothRender > 1);
+                if (5 > this.getNumPoints()) b = true;
+                if (this.wasSimpleDrawing && !b)
+                    for (var c = 0; c < this.points.length; c++) this.points[c].size = this.size;
+                this.wasSimpleDrawing = b;
+                ctx.save();
+                this.drawTime = timestamp;
+                c = this.updatePos();
+                this.destroyed && (ctx.globalAlpha *= 1 - c);
+                ctx.lineWidth = 10;
+                ctx.lineCap = "round";
+                ctx.lineJoin = this.isVirus ? "miter" : "round";
+
+                if (showColor) {
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.strokeStyle = "#AAAAAA";
+                } else {
+                   if(!this.isVirus){
+						ctx.fillStyle = this.color;
+						ctx.strokeStyle = this.color;   
+					}else{
+                       if(!oldvirus_v) {
+                           ctx.fillStyle = "rgb(255 255 255 / 0%)";
+                           ctx.strokeStyle = "rgb(255 255 255 / 0%)";
+                       }else{
+                           ctx.fillStyle = this.color;
+                           ctx.strokeStyle = this.color;
+                       }
+					}
+                }
+                if (b) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI, false);
+                }
+                else {
+                    this.movePoints();
+                    ctx.beginPath();
+                    var d = this.getNumPoints();
+                    ctx.moveTo(this.points[0].x, this.points[0].y);
+					
+					if(!this.isVirus){
+						for (c = 1; c <= d; ++c) {
+							var e = c % d;
+							ctx.lineTo(this.points[e].x, this.points[e].y)
+						}
+					}else{
+                        if(!oldvirus_v) {
+                            ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI, false);
+                        }else{
+                            for (c = 1; c <= d; ++c) {
+                                var e = c % d;
+                                ctx.lineTo(this.points[e].x, this.points[e].y)
+                            }
+                        }
+					}
+                }
+                ctx.closePath();
+                var skinName2 = this.name.toLowerCase();
+
+                var skinName = ps(skinName2)[0];
+
+
+                //console.log(skinno_y);
+                if (skinName.indexOf('[') != -1) {
+                    var clanStart = skinName.indexOf('[');
+                    var clanEnd = skinName.indexOf(']');
+                    skinName = skinName.slice(clanStart + 1, clanEnd);
+                    //console.log(skinName);
+                }
+
+                if (!this.isAgitated && showSkin && ':teams' != gameMode) {
+                    if (-1 != knownNameDict.indexOf(skinName)) {
+                        if (!skins.hasOwnProperty(skinName)) {
+                            skins[skinName] = new Image;
+                            skins[skinName].src = site_adi+"/skins/" + skinName + '.webp';
+                        }
+                        if (0 != skins[skinName].width && skins[skinName].complete) {
+                            c = skins[skinName];
+                            if(cellborder_s) {
+                                b || ctx.stroke();
+                            }
+                        } else {
+                            c = null;
+                        }
+                    } else {
+                        c = null;
+                    }
+                } else {
+                    c = null;
+                }
+                c = (e = c) ? -1 != ib.indexOf(skinName) : false;
+                //b || ctx.stroke();
+                ctx.fill();
+				
+				if(this.isVirus && !oldvirus_v){
+                    if(virusImageShow) {
+                        virusImage.src = site_adi + "/img/images/" + virusImageArray[Math.floor(Math.random() * virusImageArray.length)];
+                    }
+                    e = virusImage;
+				}
+                if (!(null == e || c)) {
+                    ctx.save();
+                    ctx.clip();
+                    ctx.drawImage(e, this.x - this.size, this.y - this.size, 2 * this.size, 2 * this.size);
+                    ctx.restore();
+                }
+				
+                if (typeof playerCells[0] !== 'undefined') {
+                    if (this.id == playerCells[0].id && (~~(this.size * this.size / 100)) < userScore / 100 && playerCells.length == 1) {
+                        ctx.save();
+                        var a = canvasWidth / 2
+                            , b = canvasHeight / 2;
+                        var dx = rawMouseX - a
+                            , dy = rawMouseY - b
+                            , rot = Math.atan2(dy, dx);
+                        ctx.translate(this.x, this.y);
+                        ctx.rotate(rot);
+                        ctx.translate(-this.x, -this.y);
+                        // donen skin ctx.drawImage(blobImage,this.x- this.size,this.y- this.size,2*this.size,2*this.size);
+
+                        ctx.drawImage(arrow, this.x - this.size * 1.5, this.y - this.size * 1.5, 3 * this.size, 3 * this.size);
+                        ctx.restore();
+                    }
+                }
+                /*     if ((showColor || 15 < this.size) && !b) {
+                        ctx.strokeStyle = '#000000';
+                        ctx.globalAlpha *= .1;
+                     //   ctx.stroke();
+                    } */
+                ctx.globalAlpha = 1;
+                if (null != e && c) {
+                    ctx.drawImage(e, this.x - 2 * this.size, this.y - 2 * this.size, 4 * this.size, 4 * this.size);
+                }
+                c = -1 != playerCells.indexOf(this);
+                var ncache;
+                //draw name
+                if (0 != this.id) {
+                    var b = ~~this.y;
+                    if ((showName || c) && this.name && this.nameCache && (null == e || -1 == knownNameDict_noDisp.indexOf(skinName))) {
+
+                        ctx.globalAlpha = 1;
+                        ctx.font = "bold "+Math.max(~~(.3 * this.size), 24) + 'px roboto';
+                        ctx.fillStyle = '#FFF';
+                        ctx.textAlign = "center";
+                        nikim = (ps(this.name.split("*")[0])[1]);
+                        ctx.fillText(nikim, this.x, this.y);
+                    }
+
+                    //draw mass
+                    if (showMass && (c || 0 == playerCells.length && (!this.isVirus || this.isAgitated) && 20 < this.size)) {
+                        ctx.globalAlpha = 1;
+                        ctx.font = "bold "+Math.max(~~(.3 * (this.size/3)), 24) + 'px roboto';
+                        ctx.fillStyle = '#FFF';
+                        ctx.textAlign = "center";
+                        var skorum =~~(this.size * this.size / 100);
+                        ctx.fillText(skorum, this.x, this.y + 100  );
+                    }
+                }
+                if(blobb==1){
+                    ctx.drawImage(blobImage,this.x- this.size,this.y- this.size,2*this.size,2*this.size);
+                }
+                ctx.restore()
+            }
+        }
+    };
+    UText.prototype = {
+        _value: "",
+        _color: "#000000",
+        _stroke: false,
+        _strokeColor: "#000000",
+        _size: 16,
+        _canvas: null,
+        _ctx: null,
+        _dirty: false,
+        _scale: 1,
+
+        setSize: function (a) {
+            if (this._size != a) {
+                this._size = a;
+                this._dirty = true;
+            }
+        },
+        setScale: function (a) {
+            if (this._scale != a) {
+                this._scale = a;
+                this._dirty = true;
+            }
+        },
+        setStrokeColor: function (a) {
+            if (this._strokeColor != a) {
+                this._strokeColor = a;
+                this._dirty = true;
+            }
+        },
+        setValue: function (a) {
+            if (a != this._value) {
+                this._value = a;
+                this._dirty = true;
+            }
+        },
+        render: function () {
+            if (null == this._canvas) {
+                this._canvas = document.createElement("canvas");
+                this._ctx = this._canvas.getContext("2d");
+            }
+            if (this._dirty) {
+                this._dirty = false;
+                var canvas = this._canvas,
+                    ctx = this._ctx,
+                    value = this._value,
+                    scale = this._scale,
+                    fontsize = this._size,
+                    font = '700 '+fontsize + 'px Roboto';
+                ctx.font = font;
+                var h = ~~(.2 * fontsize);
+                canvas.width = (ctx.measureText(value).width + 6) * scale;
+                canvas.height = (fontsize + h) * scale;
+                ctx.font = font;
+                ctx.scale(scale, scale);
+                ctx.globalAlpha = 1;
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = this._strokeColor;
+                ctx.fillStyle = this._color;
+                this._stroke && ctx.strokeText(value, 3, fontsize - h / 2);
+                ctx.fillText(value, 3, fontsize - h / 2)
+            }
+            return this._canvas
+        },
+        getWidth: function () {
+            return (ctx.measureText(this._value).width + 6);
+        }
+    };
+
+    Date.now || (Date.now = function () {
+        return (new Date).getTime()
+    });
+    var Quad = {
+        init: function (args) {
+            function Node(x, y, w, h, depth) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.depth = depth;
+                this.items = [];
+                this.nodes = []
+            }
+
+            var c = args.maxChildren || 2,
+                d = args.maxDepth || 4;
+            Node.prototype = {
+                x: 0,
+                y: 0,
+                w: 0,
+                h: 0,
+                depth: 0,
+                items: null,
+                nodes: null,
+                exists: function (selector) {
+                    for (var i = 0; i < this.items.length; ++i) {
+                        var item = this.items[i];
+                        if (item.x >= selector.x && item.y >= selector.y && item.x < selector.x + selector.w && item.y < selector.y + selector.h) return true
+                    }
+                    if (0 != this.nodes.length) {
+                        var self = this;
+                        return this.findOverlappingNodes(selector, function (dir) {
+                            return self.nodes[dir].exists(selector)
+                        })
+                    }
+                    return false;
+                },
+                retrieve: function (item, callback) {
+                    for (var i = 0; i < this.items.length; ++i) callback(this.items[i]);
+                    if (0 != this.nodes.length) {
+                        var self = this;
+                        this.findOverlappingNodes(item, function (dir) {
+                            self.nodes[dir].retrieve(item, callback)
+                        })
+                    }
+                },
+                insert: function (a) {
+                    if (0 != this.nodes.length) {
+                        this.nodes[this.findInsertNode(a)].insert(a);
+                    } else {
+                        if (this.items.length >= c && this.depth < d) {
+                            this.devide();
+                            this.nodes[this.findInsertNode(a)].insert(a);
+                        } else {
+                            this.items.push(a);
+                        }
+                    }
+                },
+                findInsertNode: function (a) {
+                    return a.x < this.x + this.w / 2 ? a.y < this.y + this.h / 2 ? 0 : 2 : a.y < this.y + this.h / 2 ? 1 : 3
+                },
+                findOverlappingNodes: function (a, b) {
+                    return a.x < this.x + this.w / 2 && (a.y < this.y + this.h / 2 && b(0) || a.y >= this.y + this.h / 2 && b(2)) || a.x >= this.x + this.w / 2 && (a.y < this.y + this.h / 2 && b(1) || a.y >= this.y + this.h / 2 && b(3)) ? true : false
+                },
+                devide: function () {
+                    var a = this.depth + 1,
+                        c = this.w / 2,
+                        d = this.h / 2;
+                    this.nodes.push(new Node(this.x, this.y, c, d, a));
+                    this.nodes.push(new Node(this.x + c, this.y, c, d, a));
+                    this.nodes.push(new Node(this.x, this.y + d, c, d, a));
+                    this.nodes.push(new Node(this.x + c, this.y + d, c, d, a));
+                    a = this.items;
+                    this.items = [];
+                    for (c = 0; c < a.length; c++) this.insert(a[c])
+                },
+                clear: function () {
+                    for (var a = 0; a < this.nodes.length; a++) this.nodes[a].clear();
+                    this.items.length = 0;
+                    this.nodes.length = 0
+                }
+            };
+            var internalSelector = {
+                x: 0,
+                y: 0,
+                w: 0,
+                h: 0
+            };
+            return {
+                root: new Node(args.minX, args.minY, args.maxX - args.minX, args.maxY - args.minY, 0),
+                insert: function (a) {
+                    this.root.insert(a)
+                },
+                retrieve: function (a, b) {
+                    this.root.retrieve(a, b)
+                },
+                retrieve2: function (a, b, c, d, callback) {
+                    internalSelector.x = a;
+                    internalSelector.y = b;
+                    internalSelector.w = c;
+                    internalSelector.h = d;
+                    this.root.retrieve(internalSelector, callback)
+                },
+                exists: function (a) {
+                    return this.root.exists(a)
+                },
+                clear: function () {
+                    this.root.clear()
+                }
+            }
+        }
+    };
+
+
+    var ac = function() {
+
+        function callback(f, size, name, s, p) {
+            var ctx = size.getContext("2d");
+            var width = size.width;
+            size = size.height;
+            /** @type {string} */
+            f.color = p;
+            f.setName(name);
+            /** @type {number} */
+            f.size = s;
+            ctx.save();
+            ctx.translate(width / 2, size / 2);
+            f.drawOneCell(ctx);
+            ctx.restore();
+        }
+        var w = new Cell(-1, 0, 0, 32, "#5bc0de", "");
+        var clone = new Cell(-1, 0, 0, 32, "#5bc0de", "");
+        var redCell = new Cell(-1, 0, 0, 32, "#5bc0de", "");
+        /** @type {!Array<string>} */
+        var magnitudes = "#ebc0de #ebc0de #ebc0de #ebc0de #0791ff #5a07ff #ff07fe #ffa507 #ff0774 #077fff #3aff07 #ff07ed #07a8ff #ff076e #3fff07 #ff0734 #07ff20 #ff07a2 #ff8207 #07ff0e".split(" ");
+        /** @type {!Array} */
+        var data = [];
+        /** @type {number} */
+        var i = 0;
+        for (; i < magnitudes.length; ++i) {
+            /** @type {number} */
+            var rheading = i / magnitudes.length * 12;
+            /** @type {number} */
+            var sinDistR = 30 * Math.sqrt(i / magnitudes.length);
+            data.push(new Cell(-1, Math.cos(rheading) * sinDistR, Math.sin(rheading) * sinDistR, 10, magnitudes[i], ""));
+        }
+        Yb(data);
+        /** @type {!Element} */
+        var canvasTemp = document.createElement("canvas");
+        canvasTemp.getContext("2d");
+        /** @type {number} */
+        canvasTemp.width = canvasTemp.height = 70;
+        callback(clone, canvasTemp, "", 26, magnitudes[Math.round(Math.random() * magnitudes.length)]);
+        return function() {
+            wjQuery(".cell-spinner").filter(":visible").each(function() {
+                var message = wjQuery(this);
+                /** @type {number} */
+                var x = Date.now();
+                var width = this.width;
+                var height = this.height;
+                var ctx = this.getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+                ctx.save();
+                ctx.translate(width / 2, height / 2);
+                /** @type {number} */
+                var y = 0;
+                for (; 10 > y; ++y) {
+                    ctx.drawImage(canvasTemp, (.1 * x + 80 * y) % (width + 140) - width / 2 - 70 - 35, height / 2 * Math.sin((.001 * x + y) % Math.PI * 2) - 35, 70, 70);
+                }
+                ctx.restore();
+                if (message = message.attr("data-itr")) {
+                    message = da(message);
+                }
+                callback(w, this, message || "", +wjQuery(this).attr("data-size"), "#5bc0de");
+            });
+            wjQuery("#statsPellets").filter(":visible").each(function() {
+                wjQuery(this);
+                var n = this.width;
+                var height = this.height;
+                this.getContext("2d").clearRect(0, 0, n, height);
+                /** @type {number} */
+                n = 0;
+                for (; n < data.length; n++) {
+                    callback(data[n], this, "", data[n].size, data[n].color);
+                }
+            });
+        };
+    }();
+
+    wHandle.onload = gameLoop
+})(window, window.jQuery);
+
+$('#btnantilag').click(function() {
+
+    var aktifDurumu = $(this).data("active");
+
+    if(aktifDurumu) {
+        $("#btnantilag").data("active",0);
+        $("#btnantilag").attr("data-active",0);
+        setSmooth(true);
+        setSkins(true);
+        setVirus(true);
+        setCellBorder(true);
+
+        $("#btnantilag").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.81 14.99l1.19-.92-1.43-1.43-1.19.92 1.43 1.43zm-.45-4.72L21 9l-9-7-2.91 2.27 7.87 7.88 2.4-1.88zM3.27 1L2 2.27l4.22 4.22L3 9l1.63 1.27L12 16l2.1-1.63 1.43 1.43L12 18.54l-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21 22 19.73 3.27 1z"/></svg>');
+
+    }else{
+
+        $("#btnantilag").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
+        $("#btnantilag").data("active",1);
+        $("#btnantilag").attr("data-active",1);
+        setSmooth(false);
+        setSkins(false);
+        setVirus(false);
+        setCellBorder(false);
+    }
 });
-</script>
-<div class="confirm">
-    <div></div>
-    <div>
-        <div id="confirmMessage">
-            <input type="checkbox" id="sartlar" name="sartlar" value="1"/>
-            <a href="https://agar.cc/tr/hizmet.html" class="sartlar_text" target="_blank">Şartları okudum ve onaylıyorum</a><br>
-        </div>
-        <div>
-            <input id="confirmYes" type="button" value="Onaylıyorum" />
-            <input id="confirmNo" type="button" value="Hayır" />
-        </div>
-    </div>
-</div>
+
+$('#btnchathide').click(function() {
+
+    var aktifDurumu = $(this).data("active");
+
+    if(aktifDurumu) {
+        $("#btnchathide").data("active",0);
+        $("#btnchathide").attr("data-active",0);
+        setHideChat(true);
+
+        $("#btnchathide").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M10.54 11l-.54-.54L7.54 8 6 6.46 2.38 2.84 1.27 1.73 0 3l2.01 2.01L2 22l4-4h9l5.73 5.73L22 22.46 17.54 18l-7-7zM8 14H6v-2h2v2zm-2-3V9l2 2H6zm14-9H4.08L10 7.92V6h8v2h-7.92l1 1H18v2h-4.92l6.99 6.99C21.14 17.95 22 17.08 22 16V4c0-1.1-.9-2-2-2z"/></svg>');
+    }else{
+
+        $("#btnchathide").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>');
+        $("#btnchathide").data("active",1);
+        $("#btnchathide").attr("data-active",1);
+        setHideChat(false);
+
+    }
+});
+
+$('input#nick').keypress(function(e) {
+    if (e.which == '13') {
+        e.preventDefault();
+        if (!isSpectating) setNick(document.getElementById('nick').value);
+    }
+});
 
 
-<div class="modal" id="selector">
-    <div class="tile" id="skinModal">
-        <span onclick="$('#selector').fadeOut('fast');" id="skinClose" >x</span>
-        <form onsubmit="findInPage(document.getElementById('searchText').value); return false;">
-            <input type="text" placeholder="Arama" class="form-control" style="width: 220px;border:none;margin: 10px;height: 20px;" id="searchText" autocomplete="off">
-        </form>
-        <div class="skins" id="skins">
-            <ul class="skinList skinler">
-                <li>
-                    <img onclick="setSkin('None');" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
-                    <p>None</p>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+function closeAndPlay() {
+    window.location = site_adi;
+}
 
-<div class="modal" id="bgmodel">
-    <div class="tile" id="bgmodelselect">
-        <h5 style="text-align: center">Arkaplan Seç</h5>
-        <span onclick="$('#bgmodel').fadeOut('fast');" id="bgClose" >x</span>
-        <ul class="skinList">
-            <li>
-                <img onclick="setBackground('');" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
-            </li>
-            <li>
-                <img onclick="setBackground('hex');" src="https://agar.cc/tr/skins/background/hex.webp">
-            </li>
-            <li>
-                <img onclick="setBackground('hex2');" src="https://agar.cc/tr/skins/background/hex2.webp">
-            </li>
-        </ul>
-    </div>
-</div>
-
-<div id="overlays">
-    <div id="new_theme_agario">
-        <div class="new_theme_agario">
-            <div class="nt_agario_header">
-                <div class="playapp">
-                </div>
-                <div id="title-logo" style="position:relative">
-                    <img src="https://agar.cc/tr/img/images/logo.png" width="400px" height="100px" alt="Agario">
-                    <h1 style="display: none;"><a href="https://agar.cc/tr" title="agario">agario</a></h1>
-                    <img class="theme_body_change"data-theme="0" src="https://agar.cc/tr/img/images/dark_mode.svg" alt="dark_mode" id="theme_body" />                </div>
-                                    <div class="login-box">
-                        <a class="sign-in-btn" href="#" onclick="save('https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=online&client_id=24395231978-brl80fraq628c2sljp2rjtd8srs64dsl.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fagar.cc%2Ftr%2Fglogin.php&state&scope=email%20profile&approval_prompt=auto')">
-                            <svg xmlns="http://www.w3.org/2000/svg"  width="18px" height="18px" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><path style="fill:#FBBB00;" d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456C103.821,274.792,107.225,292.797,113.47,309.408z"/><path style="fill:#518EF8;" d="M507.527,208.176C510.467,223.662,512,239.655,512,256c0,18.328-1.927,36.206-5.598,53.451c-12.462,58.683-45.025,109.925-90.134,146.187l-0.014-0.014l-73.044-3.727l-10.338-64.535c29.932-17.554,53.324-45.025,65.646-77.911h-136.89V208.176h138.887L507.527,208.176L507.527,208.176z"/><path style="fill:#28B446;" d="M416.253,455.624l0.014,0.014C372.396,490.901,316.666,512,256,512c-97.491,0-182.252-54.491-225.491-134.681l82.961-67.91c21.619,57.698,77.278,98.771,142.53,98.771c28.047,0,54.323-7.582,76.87-20.818L416.253,455.624z"/><path style="fill:#F14336;" d="M419.404,58.936l-82.933,67.896c-23.335-14.586-50.919-23.012-80.471-23.012c-66.729,0-123.429,42.957-143.965,102.724l-83.397-68.276h-0.014C71.23,56.123,157.06,0,256,0C318.115,0,375.068,22.126,419.404,58.936z"/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-                            Google ile giriş yap                        </a>
-                        <a class="sign-in-btn facebook" href="#" onclick="save('https://www.facebook.com/v2.5/dialog/oauth?client_id=1439381296477556&state=5e420d5e4ba3b087193107857013ecde&response_type=code&sdk=php-sdk-5.7.0&redirect_uri=https%3A%2F%2Fagar.cc%2Ftr%2Fflogin.php&scope=email')">
-                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="18px" height="18px"><path fill="#007ebb" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/></svg>
-                            Facebook ile giriş yap                        </a>
-                    </div>
-                            </div>
-            <div class="nt_agario_content">
-                <div class="nt_agario_left">
-                    <div class="nt_c_height">
-                        <div class="nt_title">
-                            <h5>
-                                Ayarlar                            </h5>
-                            <span onclick="openSettings()">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                        </span>
-                        </div>
-                        <div class="tile" id="settings">
-                            <button onclick="spectate(); return false;" class="btn-spectate">İzleyici</button>
-                            <div class="settings_content">
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setSkins(!$(this).is(':checked'));">
-                                    <strong>Skin gizle</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setNames(!$(this).is(':checked'));">
-                                    <strong>İsimleri gizle</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setShowMass($(this).is(':checked'));">
-                                    <strong>Skor göster</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setAcid($(this).is(':checked'));">
-                                    <strong>Acid Modu</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setSmooth($(this).is(':checked'));">
-                                    <strong>Düşük Lag</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input  type="checkbox" onchange="setZoom($(this).is(':checked'));">
-                                    <strong>Zoom</strong>
-                                </div>
-
-                                <div class="stt_c">
-                                    <input checked type="checkbox" onchange="setCellBorder($(this).is(':checked'));">
-                                    <strong>Hücre Sınır</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input checked type="checkbox" onchange="setVirus($(this).is(':checked'));">
-                                    <strong>Virüs Efekt</strong>
-                                </div>
-                                <div class="stt_c">
-                                    <input checked type="checkbox" onchange="setVirusView($(this).is(':checked'));">
-                                    <strong>Eski Virüs Görünümü</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="nt_rkm" style="flex-direction: column;">
-                        <h5 class="app-btn-titlee">aGAR.Cc</h5>
-                        <div id="scroll-area">
-                            <p>Nedir? agar.cc/tr/?</p><p>agar.cc/tr/ tarayıcı üzerinden oynanan, mouse ve board ile oynayabileceğiniz çok oyunculu bir oyundur. Demek istediğin…</p><p>agar.cc/tr/ nedir?</p><p>agar.cc/tr/, tarayıcı üzerinde oynanan, fare ve tahta ile oynayabileceğiniz çok oyunculu bir oyundur. Oyundaki ortalama amacınız, rakipleriniz tarafından ele geçirilmeden balonlara toplamaktır.</p>													
-                        </div>
-                    </div>
-                </div>
-                <div class="nt_agario_center">
-                    <div>
-                        <div class="flag_list">
-
-                            <div class="btn-flag" data-lang="en">
-                                <svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-gb" viewBox="0 0 640 480" width="24px" height="24px">
-                                    <path fill="#012169" d="M0 0h640v480H0z"/>
-                                    <path fill="#FFF" d="m75 0 244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z"/>
-                                    <path fill="#C8102E" d="m424 281 216 159v40L369 281h55zm-184 20 6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z"/>
-                                    <path fill="#FFF" d="M241 0v480h160V0H241zM0 160v160h640V160H0z"/>
-                                    <path fill="#C8102E" d="M0 193v96h640v-96H0zM273 0v480h96V0h-96z"/>
-                                </svg>
-                            </div>
-                            <div class="btn-flag" data-lang="tr">
-                                <svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-tr" viewBox="0 0 640 480" width="24px" height="24px">
-                                    <g fill-rule="evenodd">
-                                        <path fill="#e30a17" d="M0 0h640v480H0z"/>
-                                        <path fill="#fff" d="M407 247.5c0 66.2-54.6 119.9-122 119.9s-122-53.7-122-120 54.6-119.8 122-119.8 122 53.7 122 119.9z"/>
-                                        <path fill="#e30a17" d="M413 247.5c0 53-43.6 95.9-97.5 95.9s-97.6-43-97.6-96 43.7-95.8 97.6-95.8 97.6 42.9 97.6 95.9z"/>
-                                        <path fill="#fff" d="m430.7 191.5-1 44.3-41.3 11.2 40.8 14.5-1 40.7 26.5-31.8 40.2 14-23.2-34.1 28.3-33.9-43.5 12-25.8-37z"/>
-                                    </g>
-                                </svg>
-                            </div>
-
-                        </div>
-                        <div id="select_theme">
-
-                            <small>Oyun Teması</small>
-                            <div>
-                                <div class="select_white" data-theme="white"><span>Aktif</span></div>
-                                <div class="select_pink" data-theme="pink"><span>Aktif</span></div>
-                                <div class="select_green" data-theme="green"><span>Aktif</span></div>
-                                <div class="select_blue" data-theme="blue"><span>Aktif</span></div>
-                                <div class="select_dark" data-theme="dark"><span>Aktif</span></div>
-                                <div class="select_background" data-theme="background"><small>Arkaplan</small></div>
-                            </div>
-                        </div>
-                        <div class="pa10">
-                            <div id="user">
-                                <div class="u-profile">
-                                    <div class="skin_img" id="skinSelector">
-                                        <span>+</span>
-                                        <small>Skin</small>
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="skin" />
-                                    </div>
-                                </div>
-                                <div class="u-input">
-                                    <select onfocus="this.size=3;" onblur="this.size=1;" onchange="this.size=1; this.blur();" class="gdtr_clan" style="display: block;padding: 2px 7px;font-size: 15px;margin-bottom: 5px">
-                                        <option selected value>Klan Seç</option>
-                                         <option value="Clan Clear">Clan Clear</option> <option value="⓵ First">⓵ First</option> <option value="ཌᴼᴳད">ཌᴼᴳད</option> <option value="🌼">🌼</option> <option value="🐺">🐺</option> <option value="🥇℮Ҝ۝​">🥇℮Ҝ۝​</option> <option value="[ᴀᴛᴋ]">[ᴀᴛᴋ]</option> <option value="《F12》">《F12》</option> <option value="🇹🇷">🇹🇷</option> <option value="〖RİP〗">〖RİP〗</option> <option value="ॠƦЄĐॠ">ॠƦЄĐॠ</option> <option value="ƬψƬ ☢">ƬψƬ ☢</option> <option value="Heяø ⚡">Heяø ⚡</option> <option value="ᴶ̰ﱟᶶˢᵗ⋆">ᴶ̰ﱟᶶˢᵗ⋆</option> <option value="Ծ༙͠℘">Ծ༙͠℘</option> <option value="ぞ☪">ぞ☪</option> <option value="ＴＨＹ☬">ＴＨＹ☬</option> <option value="ѕ͠ყт͠✨">ѕ͠ყт͠✨</option> <option value="๖ۣۜ₭ᴏᴢ✨">๖ۣۜ₭ᴏᴢ✨</option> <option value="ภ₮℘♜">ภ₮℘♜</option> <option value="🇹🇷">🇹🇷</option> <option value="₭ΘĐ ♛">₭ΘĐ ♛</option> <option value="ØŠ">ØŠ</option> <option value="Ƭ͢Ʀ祝">Ƭ͢Ʀ祝</option> <option value="𝕾ℛꆭꆭℵ">𝕾ℛꆭꆭℵ</option> <option value="♔〘Ł€𝕾€ŇĐ〙♔">♔〘Ł€𝕾€ŇĐ〙♔</option> <option value="Շhaη">Շhaη</option> <option value="〖Ѧק〗">〖Ѧק〗</option> <option value="ƬǤ♚">ƬǤ♚</option> <option value="〖ᗩᐯᗩ〗">〖ᗩᐯᗩ〗</option> <option value="ᗋƓℱ苏❥">ᗋƓℱ苏❥</option> <option value="ℱΛɮ☣">ℱΛɮ☣</option> <option value="【₱€】">【₱€】</option> <option value="༺ѦҞ༻">༺ѦҞ༻</option> <option value="Skβ畝">Skβ畝</option> <option value="Ðʍ✌">Ðʍ✌</option> <option value="Gelbilgial【ƑƑ】">Gelbilgial【ƑƑ】</option> <option value="ℱ𝟱🌟">ℱ𝟱🌟</option> <option value="〄ƬѺᑭ">〄ƬѺᑭ</option> <option value="ᴿᵁᴺ𠆭">ᴿᵁᴺ𠆭</option> <option value="♏₳Ƭ🎲">♏₳Ƭ🎲</option> <option value="ᵃˡᵇᵉʳᵗᵒ㴀">ᵃˡᵇᵉʳᵗᵒ㴀</option> <option value="βⱥβⱥ">βⱥβⱥ</option> <option value="⋟ḀṠ⋞">⋟ḀṠ⋞</option> <option value="つん">つん</option> <option value="⦕𝓣𝓡⦖">⦕𝓣𝓡⦖</option> <option value="ᙖᕰƵ☪">ᙖᕰƵ☪</option> <option value="〖ᗩǤ〗">〖ᗩǤ〗</option> <option value="【ΣЯ∆】">【ΣЯ∆】</option> <option value="〖ƝƁƘ〗">〖ƝƁƘ〗</option> <option value="Heяø ⚡">Heяø ⚡</option> <option value="囚Ƶ͢ǤR">囚Ƶ͢ǤR</option> <option value="ℬυᖇ𝓝🔥">ℬυᖇ𝓝🔥</option> <option value="〖₩Ā₩〗">〖₩Ā₩〗</option> <option value="Ɠoblins">Ɠoblins</option> <option value="定๏℘">定๏℘</option> <option value="ทۖฐ长♚">ทۖฐ长♚</option> <option value="ℜŦӃ">ℜŦӃ</option> <option value="ὦɧ">ὦɧ</option> <option value="ダAƵΣダ">ダAƵΣダ</option> <option value="ƬIGΛR">ƬIGΛR</option> <option value="【≽ܫ≼】">【≽ܫ≼】</option> <option value="『𝓝𝓰𝓾』">『𝓝𝓰𝓾』</option> <option value="⦃๖ۣۣۜX℟₦ツ⦄">⦃๖ۣۣۜX℟₦ツ⦄</option> <option value="〘ЯбG〙">〘ЯбG〙</option>
-                                    </select>
-                                    <span style="display:none;" id="skin_no_gdtr">0</span>
-                                    <input type="text" name="nick" id="nick" value="RV21" maxlength="30"/>
-                                    <select id="serversecx">
-                                    <option value="server.z2se.in:5556?key=73b9c332a">VIRUS MOD</option>
-									<option value="server.z2se.in:2017?key=73b9c332a">EASY</option>
-						<a href="https://mt2.org/konu/agariolite-oyna.4776/" target="_blank"> <button style="background-color:red; color:#fffafa; width:290px; height:45px;">AgarioLite</button></a>
-                                    </select>
-                                </div>
-                            </div>
-							 <div id="turnstile-container" style="margin-top:10px"></div> 
-							                                 <button id="playBtn" onclick="rY();" class="oyunabasla playBtn_gdtr">Oyuna Başla</button>
-														<a href="https://mt2.org/forum/agario/" target="_blank"> <button style="background-color:#a0522d; color:#fffafa; width:380px;">Forum</button></a>
-                        </div>
-                    </div>
-                    <div class="nt_rkm active" style="display: flex!important;align-items: center;">
-<a title="agario lite" href="https://mt2.org/konu/agariolite-oyna.4776/" target="_blank"><img src="https://agar.cc/tr/250x250.jpg" alt="agario lite" /></a>
-                    </div>
-                </div>
-                <div class="nt_agario_right">
-                    <div class="nt_c_height">
-                        <div class="nt_title">
-                            <h5>
-                                Server Listesi                            </h5>
-                            <span onclick="openServer()">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                        </span>
-                        </div>
-                        <ul id="gamemodes" class="dropdown-menu">
-                            <li class="color6" id="server.z2se.in:8216?key=73b9c332a">FFA SPLIT</li>
-							<li class="color6" id="server.z2se.in:5557?key=73b9c332a">POP SpliT</li>
-							<li class="color6" id="server.z2se.in:5216?key=73b9c332a">YENİ MOD</li>
-						<a href="https://mt2.org/konu/agariolite-oyna.4776/" target="_blank"> <button style="background-color:red; color:#fffafa; width:290px; height:45px;">AgarioLite</button></a>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer" id="dmca">
-            @2016 Tr Agar.Cc contact:info@
-            <ul>
-                <li><a href="https://agar.cc/tr" title="agario oyna">agario oyna</a></li>
-                <li><a href="https://agar.cc/tr/politika.html" target="_blank">Agar.Cc Gizlilik Politikası</a></li>
-                <li><a href="https://agar.cc/tr/hizmet.html" target="_blank">Agar.Cc Kullanım Şartları</a></li>
-                <li>Bu site reCAPTCHA ve Google tarafından korunmaktadır.</li>
-				<li><a href="https://agario.zafer2.com" target="_blank" title="agario">Agario</a></li>
-                <li><a href="https://policies.google.com/privacy"  target="_blank" rel="nofollow"> Gizlilik Politikası</a> Ve</li>
-                <li><a href="https://policies.google.com/terms"  target="_blank" rel="nofollow"> Kullanım Şartları</a> uygulamak.</li>
-            </ul>
-        </div>
-    </div>
-</div>
+function Share(type) {
+    if (type == 'fb') {
+        window.open('https://www.facebook.com/sharer.php?u='+site_adi+'&quote=Play+to+Agario+Boston!%20Highest%20Mass%20' + document.querySelector('.gdtr_highest_mass').innerHTML + '%20Top%20Position%20' + document.querySelector('.gdtr_top_leaderboard_position').innerHTML + '%20Time%20Alive%20' + document.querySelector('.gdtr_time_alive').innerHTML + '%20Food%20Eaten%20' + document.querySelector('.gdtr_food_eaten').innerHTML, 'pagename', 'resizable');
+    }
+    if (type == 'tw') {
+        window.open('https://twitter.com/intent/tweet?text=Play%20To%20'+site_adi+'%20Highest%20Mass%20' + document.querySelector('.gdtr_highest_mass').innerHTML + '%20Top%20Position%20' + document.querySelector('.gdtr_top_leaderboard_position').innerHTML + '%20Time%20Alive%20' + document.querySelector('.gdtr_time_alive').innerHTML + '%20Food%20Eaten%20' + document.querySelector('.gdtr_food_eaten').innerHTML, 'pagename', 'resizable');
+    }
+}
 
 
-<div id="userscore">
-    <div style="display: flex;">
-        <div class="user-pause" onclick="showLogin();">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-            </svg>
-        </div>
-        <div class="user-score_txt"></div>
-        <div class="user-score_txt user-score2"></div>
-    </div>
-    <div class="game-info">
-        <div class="lastwinner box"></div>
-        <div class="timeingame box"></div>
-        <div class="bestlocation box"></div>
-    </div>
-    <div class="hide-score-info" data-active="1">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14l5-5 5 5z"/></svg>
-    </div>
-</div>
+$( document ).ready(function() {
 
-<div id="chat" class="nodrag">
-    <div class="chat_all">
-        <div class="chat_in">
-            <div class="chat-header">
-                <h5>Hoş geldin! Agar.Cc</h5>
-                <div class="chat_btn">
-                    <div class="chat_setting">
-                                                <div id="btnantilag" data-active="1" title="Anti Lag & Skin"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.81 14.99l1.19-.92-1.43-1.43-1.19.92 1.43 1.43zm-.45-4.72L21 9l-9-7-2.91 2.27 7.87 7.88 2.4-1.88zM3.27 1L2 2.27l4.22 4.22L3 9l1.63 1.27L12 16l2.1-1.63 1.43 1.43L12 18.54l-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21 22 19.73 3.27 1z"/></svg></div>
-                        <div id="btnchathide" data-active="1" ><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M10.54 11l-.54-.54L7.54 8 6 6.46 2.38 2.84 1.27 1.73 0 3l2.01 2.01L2 22l4-4h9l5.73 5.73L22 22.46 17.54 18l-7-7zM8 14H6v-2h2v2zm-2-3V9l2 2H6zm14-9H4.08L10 7.92V6h8v2h-7.92l1 1H18v2h-4.92l6.99 6.99C21.14 17.95 22 17.08 22 16V4c0-1.1-.9-2-2-2z"/></svg></div>
-                    </div>
-                    <div class="fps-game">FPS: <span>100</span></div>
-                </div>
-            </div>
-            <div id="wordChat">
-            </div>
-            <div class="chat_box">
-                    <input type="text" id="chat_textbox" placeholder="" maxlength="60" autocomplete="off">
-                    <div class="emoji_btn" data-active="1">😀</div>
+    if (getHideChat()) {
+        $("#wordChat").hide();
+        $(".chat_box").hide();
+        $(".chat-header").addClass("hidden
+		
+        $("#btnchathide").data("active",0);
+        $("#btnchathide").attr("data-active",0);
+        $("#btnchathide").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>');
 
-            </div>
-        </div>
-        <div id="emoji_list">
-            <div>
-                <span class="emoji_data">😀</span><span class="emoji_data">😃</span><span class="emoji_data">😄</span><span class="emoji_data">😁</span><span class="emoji_data">😆</span><span class="emoji_data">😅</span><span class="emoji_data">😂</span><span class="emoji_data">🤣</span><span class="emoji_data">🥲</span><span class="emoji_data">☺️</span><span class="emoji_data">😊</span><span class="emoji_data">😇</span><span class="emoji_data">🙂</span><span class="emoji_data">🙃</span><span class="emoji_data">😉</span><span class="emoji_data">😌</span><span class="emoji_data">😍</span><span class="emoji_data">🥰</span><span class="emoji_data">😘</span><span class="emoji_data">😗</span><span class="emoji_data">😙</span><span class="emoji_data">😚</span><span class="emoji_data">😋</span><span class="emoji_data">😛</span><span class="emoji_data">😝</span><span class="emoji_data">😜</span><span class="emoji_data">🤪</span><span class="emoji_data">🤨</span><span class="emoji_data">🧐</span><span class="emoji_data">🤓</span><span class="emoji_data">😎</span><span class="emoji_data">🥸</span><span class="emoji_data">🤩</span><span class="emoji_data">🥳</span><span class="emoji_data">😏</span><span class="emoji_data">😒</span><span class="emoji_data">😞</span><span class="emoji_data">😔</span><span class="emoji_data">😟</span><span class="emoji_data">😕</span><span class="emoji_data">🙁</span><span class="emoji_data">☹️</span><span class="emoji_data">😣</span><span class="emoji_data">😖</span><span class="emoji_data">😫</span><span class="emoji_data">😩</span><span class="emoji_data">🥺</span><span class="emoji_data">😢</span><span class="emoji_data">😭</span><span class="emoji_data">😤</span><span class="emoji_data">😠</span><span class="emoji_data">😡</span><span class="emoji_data">🤬</span><span class="emoji_data">🤯</span><span class="emoji_data">😳</span><span class="emoji_data">🥵</span><span class="emoji_data">🥶</span><span class="emoji_data">😱</span><span class="emoji_data">😨</span><span class="emoji_data">😰</span><span class="emoji_data">😥</span><span class="emoji_data">😓</span><span class="emoji_data">🤗</span><span class="emoji_data">🤔</span><span class="emoji_data">🤭</span><span class="emoji_data">🤫</span><span class="emoji_data">🤥</span><span class="emoji_data">😶</span><span class="emoji_data">😐</span><span class="emoji_data">😑</span><span class="emoji_data">😬</span><span class="emoji_data">🙄</span><span class="emoji_data">😯</span><span class="emoji_data">😦</span><span class="emoji_data">😧</span><span class="emoji_data">😮</span><span class="emoji_data">😲</span><span class="emoji_data">🥱</span><span class="emoji_data">😴</span><span class="emoji_data">🤤</span><span class="emoji_data">😪</span><span class="emoji_data">😵</span><span class="emoji_data">🤐</span><span class="emoji_data">🥴</span><span class="emoji_data">🤢</span><span class="emoji_data">🤮</span><span class="emoji_data">🤧</span><span class="emoji_data">😷</span><span class="emoji_data">🤒</span><span class="emoji_data">🤕</span><span class="emoji_data">🤑</span><span class="emoji_data">🤠</span><span class="emoji_data">😈</span><span class="emoji_data">👿</span><span class="emoji_data">👹</span><span class="emoji_data">👺</span><span class="emoji_data">🤡</span><span class="emoji_data">💩</span><span class="emoji_data">👻</span><span class="emoji_data">💀</span><span class="emoji_data">☠️</span><span class="emoji_data">👽</span><span class="emoji_data">👾</span><span class="emoji_data">🤖</span><span class="emoji_data">🎃</span><span class="emoji_data">😺</span><span class="emoji_data">😸</span><span class="emoji_data">😹</span><span class="emoji_data">😻</span><span class="emoji_data">😼</span><span class="emoji_data">😽</span><span class="emoji_data">🙀</span><span class="emoji_data">😿</span><span class="emoji_data">😾</span>            </div>
-        </div>
-    </div>
-</div>
+    }
+    else {
+        $(".chat-header").removeClass("hidden");
+        $("#wordChat").show();
+        $(".chat_box").show();
+        $("#btnchathide").data("active",1);
+        $("#btnchathide").attr("data-active",1);
+        $("#btnchathide").html('<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M10.54 11l-.54-.54L7.54 8 6 6.46 2.38 2.84 1.27 1.73 0 3l2.01 2.01L2 22l4-4h9l5.73 5.73L22 22.46 17.54 18l-7-7zM8 14H6v-2h2v2zm-2-3V9l2 2H6zm14-9H4.08L10 7.92V6h8v2h-7.92l1 1H18v2h-4.92l6.99 6.99C21.14 17.95 22 17.08 22 16V4c0-1.1-.9-2-2-2z"/></svg>');
 
-<div id="statoverlay" style="display:none; position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 200;">
-    <div id="stats" style="display:none;width:370px;" class="warball-panel">
-        <div class="stats-box" style="height: 310px;position: relative;  margin-bottom: 10px;">
-            <div style="border:none;">
-                <h3 style="margin-top: 15px !important;text-align:center;">Skorlarınız</h3>
-            </div>
-            <canvas id="statsGraph" width="370" height="215"></canvas>
-            <div id="statsPelletsContainer">
-                <span id="statsText" class="stats-food-eaten gdtr_food_eaten">0</span>
-                <span id="statsSubtext" data-itr="stats_food_eaten" >Oynadığın süren</span>
-            </div>
-            <div id="statsHighestMassContainer">
-                <span id="statsText" class="stats-highest-mass gdtr_highest_mass">30</span>
-                <span id="statsSubtext" data-itr="stats_highest_mass" >Rekor Skor</span>
-            </div>
-            <div id="statsTimeAliveContainer">
-                <span id="statsText" class="stats-time-alive gdtr_time_alive">0:01</span>
-                <span id="statsSubtext" data-itr="stats_time_alive" >Yenilen hücre</span>
-            </div>
-            <div id="statsTimeLeaderboardContainer">
-                <span id="statsText" class="stats-leaderboard-time gdtr_top_leaderboard_position">0:00</span>
-                <span id="statsSubtext" data-itr="stats_leaderboard_time">Liderlik süresi</span>
-            </div>
-            <div id="statsPlayerCellsEatenContainer">
-                <span id="statsText" class="stats-cells-eaten">0</span>
-                <span id="statsSubtext" data-itr="stats_cells_eaten">Yenilen hücre</span>
-            </div>
-            <div id="statsTopPositionContainer">
-                <span id="statsText" class="stats-top-position">:(</span>
-                <span id="statsSubtext" data-itr="stats_top_position">Üst konum</span>
-            </div>
+    }
+    if (selectAgarioTheme) {
+        if (selectAgarioTheme == "white") {
+            $(".select_white").addClass("active");
+            default_tema(true);
+        } else if (selectAgarioTheme == "dark") {
+            $(".select_dark").addClass("active");
+            setDarkTheme(true);
+        } else if (selectAgarioTheme == "yesil") {
+            $(".select_green").addClass("active");
+            yesiltema(true);
+        }else if (selectAgarioTheme == "mavi") {
+            $(".select_blue").addClass("active");
+            mavitema(true);
+        } else {
+            $(".select_pink").addClass("active");
+            pembetema(true);
+        }
+    }else{
+        document.querySelectorAll("input[name=theme]")[1].checked = true;
+    }
 
-            <div style="padding: 10px;line-height: 1;position:absolute;bottom:5px;left:0;right:0;margin-left:auto;margin-right:auto;z-index:4;">
-                <div class="stats-btn__row">
-                    <button onclick="Share('tw')" class="stats-btn__share-btn">
-                        <svg class="stats-btn__icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.537 511.537">
-                            <path style="fill:#FFFFFF;" d="M357.038,49.172c-59.284,0.898-105.993,52.098-105.993,111.382v14.372 C145.052,156.063,92.954,127.319,35.466,67.137c-34.133,66.47,3.593,122.161,44.912,152.702c-27.846,0-51.2-3.593-69.165-19.761 c-1.796-0.898-3.593,0-2.695,1.797c15.27,55.691,67.368,96.112,107.789,107.789c-36.828,0-61.081,5.389-87.13-10.779 c-1.796-0.898-3.593,0-2.695,1.796c19.761,54.793,59.284,71.86,116.772,71.86c-28.744,21.558-67.368,43.116-140.126,44.912 c-2.695,0-4.491,3.593-1.796,5.389c26.947,22.456,93.418,39.523,186.835,39.523c153.6,0,278.456-136.533,278.456-305.404v-8.982 c24.253-8.982,37.726-30.54,44.912-52.098c0-0.898-0.898-1.796-1.797-1.796l-51.2,17.965c-0.898,0-1.796-1.796-0.898-2.695 C479.2,92.288,495.368,70.73,502.554,50.07c0,0-0.898-0.898-1.797-0.898c-24.253,9.881-47.607,19.761-65.572,25.151 c-2.695,0.898-6.288,0.898-8.982-0.898C414.526,67.137,379.494,49.172,357.038,49.172">
-                            </path>
-                        </svg>
-                        <span class="stats-btn__text">
-                          Paylaş                        </span>
-                    </button>
-                    <button onclick="Share('fb')" class="stats-btn__share-btn">
-                        <svg class="stats-btn__icon-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                            <path style="fill:#FFFFFF;" d="m437 0h-362c-41.351562 0-75 33.648438-75 75v362c0 41.351562 33.648438 75 75 75h151v-181h-60v-90h60v-61c0-49.628906 40.371094-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.351562 0 75-33.648438 75-75v-362c0-41.351562-33.648438-75-75-75zm0 0">
-                            </path>
-                        </svg>
-                        <span class="stats-btn__text">
-                           Paylaş                        </span>
-                    </button>
-                </div>
-                <button style="width: 100%;background-color: #e91e63;color: white;height:34px"onclick="$('#statoverlay').hide(); $('#overlays').show();  $('#login-tile').fadeIn(); return false;" class="btn btn-primary btn-needs-server">Devam...</button>
-            </div>
-        </div>
-        <div class="stats-box" style="height:260px;width: 100%;display: flex;justify-content: center;">
-<a title="agario lite" href="https://mt2.org/konu/agariolite-oyna.4776/" target="_blank"><img src="https://agar.cc/tr/250x250.jpg" alt="agario lite" /></a>
-        </div>
-    </div>
+    if(getCookie("gameSkin") !== undefined && !getCookie("gameSkin") ){
+        setSkins(true);
+    }
+    if(getCookie("gameName") !== undefined && !getCookie("gameName") ){
+        setNames(getCookie("gameName"));
+    }
 
-</div>
-<div id="connecting">
-    <div>
-        <h2>Bağlantı kuruluyor...</h2>
-    </div>
-</div>
+    if(getCookie("gameBg") !== undefined && getCookie("gameBg") ){
 
-<div id="mobileStuff" style="display:none">
-    <img src="https://agar.cc/tr/img/images/feed.webp" alt="agario split" id="splitBtn">
-    <img src="https://agar.cc/tr/img/images/split.webp" alt="agario eject" id="ejectBtn">
-</div>
-<canvas id="canvas" width="1440" height="770"></canvas>
+        setBackground(getCookie("gameBg"));
+    }
 
-<script type="text/javascript" src="lib/js/jquery-2.1.1.min.js?v=0.0.0.0.2.1.9.6.295"></script>
-<script type="text/javascript" async src="https://agar.cc/tr/lib/js/data_v2.js?v=550.0.0.0.2.1.9.6.295"></script>
-<script type="text/javascript" async src="lib/js/main.min.js?v=1789884899"></script>
-<script type="text/javascript" async src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
-</body>
+    if(getCookie("gameShowMass") !== undefined && getCookie("gameShowMass") ){
+        setShowMass(true);
+    }
+    if(getCookie("gameAcid") !== undefined && getCookie("gameAcid") ){
+        setAcid(true);
+    }
+    if(getCookie("gameSmooth") !== undefined && getCookie("gameSmooth") ){
+        setSmooth(true);
+    }
+    if(getCookie("gameZoom") !== undefined && !getCookie("gameZoom") ){
+        setZoom(true);
+    }
+
+    if(getCookie("gamecellborder") !== undefined && !getCookie("gameZoom") ){
+        setCellBorder(true);
+    }
+
+    if(getCookie("gamevirus") !== undefined && !getCookie("gamevirus") ){
+        setVirus(true);
+    }
+
+
+    if(getCookie("eskivirustipi") !== undefined ){
+        if(getCookie("eskivirustipi") ) {
+            setVirusView(true);
+        }
+    }
+});
